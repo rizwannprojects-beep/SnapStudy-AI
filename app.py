@@ -746,17 +746,17 @@ def main():
     st.markdown(
         """
         <style>
-            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
             /* ==================================================================
-               1. UNIFIED DESIGN SYSTEM VARIABLES
+               1. UNIFIED DESIGN SYSTEM VARIABLES (LIGHT THEME)
                ================================================================== */
             :root {
-                /* Core Palette */
-                --primary: #4F46E5;
+                /* Core Colors */
+                --primary: #5146E5;
                 --primary-hover: #4338CA;
-                --secondary: #7C3AED;
-                --accent: #06B6D4;
+                --secondary: #06B6D4;
+                --accent: #7C3AED;
                 --success: #10B981;
                 --warning: #F59E0B;
                 --error: #EF4444;
@@ -770,16 +770,17 @@ def main():
                 --bg-page: #F5F7FF;
                 --bg-card: #FFFFFF;
                 --bg-sidebar: #EEF2FF;
-                --bg-input: #1F2937;
-                --input-text: #FFFFFF;
-                --input-placeholder: #94A3B8;
+                --bg-input: #FFFFFF;
+                --input-text: #172033;
+                --input-placeholder: #71809A;
 
                 /* Borders */
-                --border: #DDE3F0;
+                --border: #D8DFF0;
+                --border-input: #D5DDF0;
                 --border-soft: #E8ECF5;
-                --border-focus: #4F46E5;
+                --border-focus: #5146E5;
 
-                /* Spacing Tokens */
+                /* Spacing System */
                 --space-xs: 4px;
                 --space-sm: 8px;
                 --space-md: 12px;
@@ -842,6 +843,7 @@ def main():
                 padding-right: 2rem !important;
                 margin-left: auto !important;
                 margin-right: auto !important;
+                box-sizing: border-box !important;
             }
 
             /* Typography Hierarchy */
@@ -853,10 +855,10 @@ def main():
                 margin-top: 0 !important;
             }
 
-            h1 { font-size: 32px !important; }
-            h2 { font-size: 24px !important; }
-            h3 { font-size: 20px !important; }
-            h4 { font-size: 16px !important; }
+            h1 { font-size: 32px !important; font-weight: 700 !important; }
+            h2 { font-size: 24px !important; font-weight: 700 !important; }
+            h3 { font-size: 20px !important; font-weight: 700 !important; }
+            h4 { font-size: 16px !important; font-weight: 600 !important; }
 
             p, span, label, div {
                 font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
@@ -868,9 +870,12 @@ def main():
             }
 
             /* ==================================================================
-               3. SIDEBAR ALIGNMENT & DESIGN
+               3. SIDEBAR ALIGNMENT & DESIGN (320px - 350px)
                ================================================================== */
             section[data-testid="stSidebar"] {
+                width: 340px !important;
+                min-width: 320px !important;
+                max-width: 350px !important;
                 background-color: var(--bg-sidebar) !important;
                 border-right: 1px solid var(--border) !important;
                 box-shadow: none !important;
@@ -881,14 +886,15 @@ def main():
             }
 
             .sidebar-section-title {
-                font-size: 13.5px;
+                font-size: 13px;
                 font-weight: 700;
                 color: var(--text-main);
-                letter-spacing: -0.01em;
+                letter-spacing: 0.02em;
                 margin-bottom: var(--space-sm);
                 display: flex;
                 align-items: center;
                 gap: 6px;
+                text-transform: uppercase;
             }
 
             /* Sidebar Card Containers */
@@ -898,32 +904,44 @@ def main():
                 border-radius: var(--radius-card) !important;
                 padding: var(--space-lg) !important;
                 margin-bottom: var(--space-md) !important;
-                box-shadow: 0 1px 3px rgba(23, 32, 51, 0.03) !important;
+                box-shadow: 0 2px 8px rgba(23, 32, 51, 0.03) !important;
             }
 
-            /* Student Profile Inputs & General Sidebar Inputs */
+            /* Student Profile Inputs & General Inputs */
+            div[data-testid="stTextInput"] {
+                width: 100% !important;
+                margin-bottom: var(--space-sm) !important;
+            }
+
             div[data-testid="stTextInput"] div[data-baseweb="base-input"] {
-                background-color: var(--bg-input) !important;
-                border: 1px solid #374151 !important;
+                background-color: #FFFFFF !important;
+                border: 1px solid var(--border-input) !important;
                 border-radius: var(--radius-control) !important;
                 transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
                 width: 100% !important;
                 box-sizing: border-box !important;
+                height: 42px !important;
+                min-height: 42px !important;
+                padding: 0 !important;
             }
 
             div[data-testid="stTextInput"] div[data-baseweb="base-input"]:focus-within {
-                border-color: var(--primary) !important;
-                box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15) !important;
+                border-color: var(--border-focus) !important;
+                box-shadow: 0 0 0 2px rgba(81, 70, 229, 0.15) !important;
             }
 
             div[data-testid="stTextInput"] input {
-                background-color: transparent !important;
-                color: var(--input-text) !important;
-                caret-color: var(--input-text) !important;
+                background-color: #FFFFFF !important;
+                color: #172033 !important;
+                caret-color: var(--border-focus) !important;
                 font-size: 14px !important;
-                font-weight: 400 !important;
-                padding: 9px 12px !important;
+                font-weight: 500 !important;
+                padding: 10px 12px !important;
                 width: 100% !important;
+                height: 100% !important;
+                box-sizing: border-box !important;
+                border: none !important;
+                border-radius: var(--radius-control) !important;
             }
 
             div[data-testid="stTextInput"] input::placeholder {
@@ -931,9 +949,10 @@ def main():
                 opacity: 1 !important;
             }
 
-            /* Hide form instructions like 'Press Enter to submit' */
+            /* Hide helper instructions like 'Press Enter to submit form' */
             form[aria-label="sidebar_onboarding_form"] [data-testid="InputInstructions"],
-            div[data-testid="stTextInput"] [data-testid="InputInstructions"] {
+            div[data-testid="stTextInput"] [data-testid="InputInstructions"],
+            div[data-testid="InputInstructions"] {
                 display: none !important;
                 visibility: hidden !important;
                 height: 0 !important;
@@ -948,6 +967,8 @@ def main():
                 font-weight: 600 !important;
                 color: var(--text-main) !important;
                 margin-bottom: var(--space-xs) !important;
+                display: block !important;
+                text-align: left !important;
             }
 
             /* Sidebar File Uploader */
@@ -984,7 +1005,7 @@ def main():
                 background: var(--bg-card);
                 border: 1px solid var(--border);
                 border-radius: var(--radius-card);
-                padding: 14px 20px;
+                padding: 14px 22px;
                 box-shadow: var(--shadow-card);
                 margin-bottom: var(--space-lg);
                 box-sizing: border-box;
@@ -1050,7 +1071,7 @@ def main():
 
             .header-accent-line {
                 height: 3px;
-                background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+                background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 50%, var(--secondary) 100%);
                 border-radius: 3px;
                 margin-top: -12px;
                 margin-bottom: var(--space-lg);
@@ -1070,23 +1091,29 @@ def main():
             }
 
             .hero-wrapper {
+                background: var(--bg-card);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-card);
+                padding: 22px 24px;
+                box-shadow: var(--shadow-card);
                 margin-bottom: var(--space-lg);
-                padding: 2px 0;
+                box-sizing: border-box;
+                width: 100%;
             }
 
             .hero-heading {
-                font-size: 30px !important;
+                font-size: 26px !important;
                 font-weight: 700 !important;
                 color: var(--text-main) !important;
-                margin-bottom: var(--space-xs) !important;
-                line-height: 1.25 !important;
+                margin: 0 0 6px 0 !important;
+                line-height: 1.3 !important;
             }
 
             .hero-subheading {
-                font-size: 15px !important;
+                font-size: 14.5px !important;
                 color: var(--text-secondary) !important;
                 line-height: 1.5 !important;
-                margin-top: 0 !important;
+                margin: 0 !important;
             }
 
             /* Workspace Card Header */
@@ -1129,14 +1156,156 @@ def main():
                 box-shadow: 0 2px 8px rgba(23, 32, 51, 0.04) !important;
             }
 
+            /* File Uploader in Main Area */
+            .main [data-testid="stFileUploader"] {
+                width: 100% !important;
+            }
+
+            .main [data-testid="stFileUploader"] section {
+                background-color: #FAFAFF !important;
+                border: 2px dashed var(--border) !important;
+                border-radius: var(--radius-control) !important;
+                padding: 24px 16px !important;
+                text-align: center !important;
+                transition: all 0.2s ease !important;
+            }
+
+            .main [data-testid="stFileUploader"] section:hover {
+                border-color: var(--primary) !important;
+                background-color: #F5F7FF !important;
+            }
+
+            .main [data-testid="stFileUploader"] section button {
+                background-color: var(--primary) !important;
+                color: #FFFFFF !important;
+                border: 1px solid var(--primary) !important;
+                border-radius: 8px !important;
+                font-size: 13.5px !important;
+                font-weight: 600 !important;
+                padding: 6px 18px !important;
+                margin: 0 auto !important;
+            }
+
+            .main [data-testid="stFileUploader"] section button:hover {
+                background-color: var(--primary-hover) !important;
+                border-color: var(--primary-hover) !important;
+            }
+
             /* ==================================================================
-               7. ANALYSIS & SOLUTIONS VISUAL HIERARCHY
+               7. FEATURE CARDS RESPONSIVE GRID
+               ================================================================== */
+            .feature-section-title {
+                font-size: 18px;
+                font-weight: 700;
+                color: var(--text-main);
+                margin-top: 20px;
+                margin-bottom: 12px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .feature-cards-grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 16px;
+                margin-bottom: var(--space-xl);
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            @media (max-width: 1100px) {
+                .feature-cards-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+
+            @media (max-width: 600px) {
+                .feature-cards-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            .feature-card-item {
+                border-radius: var(--radius-card);
+                padding: 20px 18px;
+                min-height: 175px;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                box-shadow: 0 2px 8px rgba(23, 32, 51, 0.04);
+                box-sizing: border-box;
+                transition: transform 0.15s ease, box-shadow 0.15s ease;
+            }
+
+            .feature-card-item:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 16px rgba(23, 32, 51, 0.08);
+            }
+
+            .card-math { background: #EEF2FF; border: 1px solid #C7D2FE; }
+            .card-notes { background: #F5F3FF; border: 1px solid #DDD6FE; }
+            .card-code { background: #ECFEFF; border: 1px solid #A5F3FC; }
+            .card-diagrams { background: #FFF7ED; border: 1px solid #FED7AA; }
+
+            .feature-icon-box {
+                font-size: 24px;
+                width: 44px;
+                height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 10px;
+                margin-bottom: 12px;
+            }
+            .card-math .feature-icon-box { background: #E0E7FF; border: 1px solid #C7D2FE; }
+            .card-notes .feature-icon-box { background: #EDE9FE; border: 1px solid #DDD6FE; }
+            .card-code .feature-icon-box { background: #CFFAFE; border: 1px solid #A5F3FC; }
+            .card-diagrams .feature-icon-box { background: #FFEDD5; border: 1px solid #FED7AA; }
+
+            .feature-title {
+                font-size: 15px;
+                font-weight: 700;
+                margin-bottom: 6px;
+            }
+            .card-math .feature-title { color: var(--primary); }
+            .card-notes .feature-title { color: var(--accent); }
+            .card-code .feature-title { color: #0891B2; }
+            .card-diagrams .feature-title { color: #EA580C; }
+
+            .feature-desc {
+                font-size: 13px;
+                color: var(--text-secondary);
+                line-height: 1.5;
+            }
+
+            .feature-tag-wrapper {
+                margin-top: 14px;
+            }
+
+            .feature-tag {
+                font-size: 11px;
+                font-weight: 700;
+                padding: 3px 8px;
+                border-radius: 6px;
+                letter-spacing: 0.03em;
+                display: inline-block;
+            }
+            .tag-indigo { background: #E0E7FF; color: var(--primary); }
+            .tag-violet { background: #EDE9FE; color: var(--accent); }
+            .tag-cyan   { background: #CFFAFE; color: #0891B2; }
+            .tag-coral  { background: #FFEDD5; color: #EA580C; }
+
+            /* ==================================================================
+               8. ANALYSIS & SOLUTIONS VISUAL HIERARCHY
                ================================================================== */
             .analysis-content {
                 font-size: 14.5px;
                 line-height: 1.65;
                 color: var(--text-main);
                 word-break: break-word;
+                overflow-wrap: break-word;
             }
 
             .analysis-content h2, .analysis-content h3 {
@@ -1176,7 +1345,7 @@ def main():
             }
 
             .pill-indigo { background: #EEF2FF; color: var(--primary); border: 1px solid #C7D2FE; }
-            .pill-violet { background: #F5F3FF; color: var(--secondary); border: 1px solid #DDD6FE; }
+            .pill-violet { background: #F5F3FF; color: var(--accent); border: 1px solid #DDD6FE; }
             .pill-cyan   { background: #ECFEFF; color: #0891B2; border: 1px solid #A5F3FC; }
             .pill-coral  { background: #FFF7ED; color: #EA580C; border: 1px solid #FED7AA; }
 
@@ -1245,7 +1414,7 @@ def main():
                 margin-bottom: 8px;
             }
 
-            /* Stepper Card for Multi-Step Progress */
+            /* Stepper Card */
             .stepper-card {
                 background: #F8FAFC;
                 border: 1px solid var(--border);
@@ -1275,7 +1444,7 @@ def main():
 
             /* Code Blocks */
             .analysis-content pre, .stMainBlockContainer pre {
-                background-color: var(--bg-input) !important;
+                background-color: #1F2937 !important;
                 color: #F8FAFC !important;
                 border: 1px solid #374151 !important;
                 border-radius: var(--radius-control) !important;
@@ -1295,20 +1464,23 @@ def main():
             }
 
             /* ==================================================================
-               8. BUTTONS
+               9. BUTTONS
                ================================================================== */
-            div[data-testid="stButton"] button {
+            div[data-testid="stButton"] button,
+            div[data-testid="stFormSubmitButton"] button {
                 border-radius: var(--radius-control) !important;
                 font-weight: 600 !important;
                 font-size: 13.5px !important;
                 padding: 8px 16px !important;
                 min-height: 40px !important;
+                height: 40px !important;
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
                 transition: all 0.15s ease !important;
                 box-sizing: border-box !important;
                 text-align: center !important;
+                width: 100% !important;
             }
 
             div[data-testid="stButton"] button[kind="primary"],
@@ -1322,7 +1494,7 @@ def main():
             div[data-testid="stFormSubmitButton"] button:hover {
                 background-color: var(--primary-hover) !important;
                 border-color: var(--primary-hover) !important;
-                box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25) !important;
+                box-shadow: 0 4px 12px rgba(81, 70, 229, 0.25) !important;
             }
 
             div[data-testid="stButton"] button[kind="secondary"] {
@@ -1347,20 +1519,51 @@ def main():
             }
 
             .analyze-coral-btn button {
-                background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%) !important;
+                background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%) !important;
                 color: #FFFFFF !important;
                 border: none !important;
-                box-shadow: 0 4px 14px rgba(79, 70, 229, 0.28) !important;
+                box-shadow: 0 4px 14px rgba(81, 70, 229, 0.28) !important;
             }
 
             .analyze-coral-btn button:hover {
-                box-shadow: 0 6px 18px rgba(79, 70, 229, 0.38) !important;
+                box-shadow: 0 6px 18px rgba(81, 70, 229, 0.38) !important;
                 transform: translateY(-1px) !important;
             }
 
             /* ==================================================================
-               9. CHAT COMPOSER & SUGGESTION CHIPS
+               10. CHAT COMPOSER & BOTTOM AREA
                ================================================================== */
+            /* Streamlit Bottom Block Override: Normal flow at bottom of content */
+            div[data-testid="stBottom"] {
+                position: relative !important;
+                bottom: auto !important;
+                left: auto !important;
+                right: auto !important;
+                width: 100% !important;
+                max-width: var(--content-max-width) !important;
+                margin: var(--space-xl) auto var(--space-2xl) auto !important;
+                padding: 0 !important;
+                background: transparent !important;
+                border-top: none !important;
+                box-shadow: none !important;
+                z-index: 10 !important;
+            }
+
+            div[data-testid="stBottom"] > div {
+                background: transparent !important;
+                padding: 0 !important;
+            }
+
+            div[data-testid="stBottomBlockContainer"] {
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                max-width: 100% !important;
+                width: 100% !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
             .composer-meta-wrapper {
                 display: flex;
                 align-items: center;
@@ -1368,6 +1571,8 @@ def main():
                 margin-top: var(--space-xl);
                 margin-bottom: var(--space-sm);
                 padding: 0 2px;
+                width: 100%;
+                box-sizing: border-box;
             }
 
             .composer-title-group {
@@ -1435,7 +1640,7 @@ def main():
                 border: 1px solid var(--border) !important;
                 border-radius: var(--radius-card) !important;
                 box-shadow: var(--shadow-card) !important;
-                padding: 6px 12px !important;
+                padding: 6px 14px !important;
                 margin: 0 auto !important;
                 width: 100% !important;
                 box-sizing: border-box !important;
@@ -1445,7 +1650,7 @@ def main():
 
             div[data-testid="stChatInput"]:focus-within {
                 border-color: var(--primary) !important;
-                box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12) !important;
+                box-shadow: 0 0 0 3px rgba(81, 70, 229, 0.12) !important;
             }
 
             div[data-testid="stChatInput"] textarea {
@@ -1456,10 +1661,11 @@ def main():
                 line-height: 1.5 !important;
                 border: none !important;
                 box-shadow: none !important;
+                padding: 8px 4px !important;
             }
 
             div[data-testid="stChatInput"] textarea::placeholder {
-                color: var(--text-secondary) !important;
+                color: var(--input-placeholder) !important;
                 opacity: 1 !important;
             }
 
@@ -1483,25 +1689,9 @@ def main():
             }
 
             div[data-testid="stChatInput"] button:disabled {
-                background-color: #CBD5E1 !important;
-                color: #94A3B8 !important;
+                background-color: #E2E8F0 !important;
+                color: var(--text-muted) !important;
                 cursor: not-allowed !important;
-            }
-
-            /* Clean up default fixed bottom block background */
-            div[data-testid="stBottomBlockContainer"] {
-                background: transparent !important;
-                border-top: none !important;
-                box-shadow: none !important;
-            }
-
-            div[data-testid="stBottom"] {
-                background: transparent !important;
-                border-top: none !important;
-            }
-
-            div[data-testid="stBottom"] > div {
-                background: transparent !important;
             }
 
             /* Chat Message Bubbles */
@@ -1515,7 +1705,7 @@ def main():
             }
 
             /* ==================================================================
-               10. ALERTS, EXPANDERS & MISC
+               11. ALERTS, EXPANDERS & MISC
                ================================================================== */
             div[data-testid="stAlert"] {
                 border-radius: var(--radius-control) !important;
@@ -1535,22 +1725,14 @@ def main():
                 box-shadow: var(--shadow-card) !important;
             }
 
-            /* File Uploader in Main Area */
-            .main [data-testid="stFileUploader"] section {
-                background-color: #FAFAFF !important;
-                border: 1px dashed var(--border) !important;
-                border-radius: var(--radius-control) !important;
-                padding: 16px !important;
-            }
-
-            .main [data-testid="stFileUploader"] section:hover {
-                border-color: var(--primary) !important;
-            }
-
             /* ==================================================================
-               11. RESPONSIVE DESIGN (Desktop, Tablet, Mobile)
+               12. RESPONSIVE DESIGN (Desktop, Tablet, Mobile)
                ================================================================== */
             @media (max-width: 1024px) {
+                section[data-testid="stSidebar"] {
+                    width: 300px !important;
+                    min-width: 280px !important;
+                }
                 .stMainBlockContainer, .main .block-container {
                     padding-left: 1.25rem !important;
                     padding-right: 1.25rem !important;
@@ -1599,7 +1781,7 @@ def main():
                 }
 
                 .hero-heading {
-                    font-size: 24px !important;
+                    font-size: 22px !important;
                 }
 
                 div[data-testid="stChatInput"] {
@@ -1889,84 +2071,55 @@ def main():
                 st.session_state.last_summary = None
                 st.rerun()
 
-        # Feature Cards: Distinctly Tinted Educational Cards
+        # Feature Cards: Responsive Grid Container
         st.markdown(
             """
-            <div style="font-size: 18px; font-weight: 700; color: #172033; margin-top: 14px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
-                What can SnapStudy do?
+            <div class="feature-section-title">✨ What can SnapStudy do?</div>
+            <div class="feature-cards-grid">
+                <div class="feature-card-item card-math">
+                    <div>
+                        <div class="feature-icon-box">🧮</div>
+                        <div class="feature-title">Solve Problems</div>
+                        <div class="feature-desc">Step-by-step solutions for mathematical, physics, and aptitude questions.</div>
+                    </div>
+                    <div class="feature-tag-wrapper">
+                        <span class="feature-tag tag-indigo">MATH & STEM</span>
+                    </div>
+                </div>
+                <div class="feature-card-item card-notes">
+                    <div>
+                        <div class="feature-icon-box">📝</div>
+                        <div class="feature-title">Read Notes</div>
+                        <div class="feature-desc">Understand handwritten scribbles, blackboard photos, and textbook notes.</div>
+                    </div>
+                    <div class="feature-tag-wrapper">
+                        <span class="feature-tag tag-violet">HANDWRITING</span>
+                    </div>
+                </div>
+                <div class="feature-card-item card-code">
+                    <div>
+                        <div class="feature-icon-box">💻</div>
+                        <div class="feature-title">Explain Code</div>
+                        <div class="feature-desc">Analyze programming code snippets, syntax errors, and algorithm logic.</div>
+                    </div>
+                    <div class="feature-tag-wrapper">
+                        <span class="feature-tag tag-cyan">CODE & LOGIC</span>
+                    </div>
+                </div>
+                <div class="feature-card-item card-diagrams">
+                    <div>
+                        <div class="feature-icon-box">📐</div>
+                        <div class="feature-title">Understand Diagrams</div>
+                        <div class="feature-desc">Explain technical architectures, scientific diagrams, and flowcharts.</div>
+                    </div>
+                    <div class="feature-tag-wrapper">
+                        <span class="feature-tag tag-coral">DIAGRAMS</span>
+                    </div>
+                </div>
             </div>
             """,
             unsafe_allow_html=True,
         )
-        fc1, fc2, fc3, fc4 = st.columns(4)
-
-        with fc1:
-            st.markdown(
-                """
-                <div style="background: #EEF2FF; border: 1px solid #C7D2FE; border-radius: 14px; padding: 20px 18px; min-height: 175px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 1px 3px rgba(79, 70, 229, 0.05);">
-                    <div>
-                        <div style="font-size: 24px; background: #E0E7FF; border: 1px solid #C7D2FE; border-radius: 10px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">🧮</div>
-                        <div style="font-size: 15px; font-weight: 700; color: #4F46E5; margin-bottom: 6px;">Solve Problems</div>
-                        <div style="font-size: 13px; color: #64748B; line-height: 1.5;">Step-by-step solutions for mathematical, physics, and aptitude questions.</div>
-                    </div>
-                    <div style="margin-top: 14px;">
-                        <span style="font-size: 11px; font-weight: 700; background: #E0E7FF; color: #4F46E5; padding: 3px 8px; border-radius: 6px; letter-spacing: 0.03em;">MATH & STEM</span>
-                    </div>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
-
-        with fc2:
-            st.markdown(
-                """
-                <div style="background: #F5F3FF; border: 1px solid #DDD6FE; border-radius: 14px; padding: 20px 18px; min-height: 175px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 1px 3px rgba(124, 58, 237, 0.05);">
-                    <div>
-                        <div style="font-size: 24px; background: #EDE9FE; border: 1px solid #DDD6FE; border-radius: 10px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">📝</div>
-                        <div style="font-size: 15px; font-weight: 700; color: #7C3AED; margin-bottom: 6px;">Read Notes</div>
-                        <div style="font-size: 13px; color: #64748B; line-height: 1.5;">Understand handwritten scribbles, blackboard photos, and textbook notes.</div>
-                    </div>
-                    <div style="margin-top: 14px;">
-                        <span style="font-size: 11px; font-weight: 700; background: #EDE9FE; color: #7C3AED; padding: 3px 8px; border-radius: 6px; letter-spacing: 0.03em;">HANDWRITING</span>
-                    </div>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
-
-        with fc3:
-            st.markdown(
-                """
-                <div style="background: #ECFEFF; border: 1px solid #A5F3FC; border-radius: 14px; padding: 20px 18px; min-height: 175px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 1px 3px rgba(6, 182, 212, 0.05);">
-                    <div>
-                        <div style="font-size: 24px; background: #CFFAFE; border: 1px solid #A5F3FC; border-radius: 10px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">💻</div>
-                        <div style="font-size: 15px; font-weight: 700; color: #0891B2; margin-bottom: 6px;">Explain Code</div>
-                        <div style="font-size: 13px; color: #64748B; line-height: 1.5;">Analyze programming code snippets, syntax errors, and algorithm logic.</div>
-                    </div>
-                    <div style="margin-top: 14px;">
-                        <span style="font-size: 11px; font-weight: 700; background: #CFFAFE; color: #0891B2; padding: 3px 8px; border-radius: 6px; letter-spacing: 0.03em;">CODE & LOGIC</span>
-                    </div>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
-
-        with fc4:
-            st.markdown(
-                """
-                <div style="background: #FFF7ED; border: 1px solid #FED7AA; border-radius: 14px; padding: 20px 18px; min-height: 175px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 1px 3px rgba(249, 115, 22, 0.05);">
-                    <div>
-                        <div style="font-size: 24px; background: #FFEDD5; border: 1px solid #FED7AA; border-radius: 10px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">📐</div>
-                        <div style="font-size: 15px; font-weight: 700; color: #EA580C; margin-bottom: 6px;">Understand Diagrams</div>
-                        <div style="font-size: 13px; color: #64748B; line-height: 1.5;">Explain technical architectures, scientific diagrams, and flowcharts.</div>
-                    </div>
-                    <div style="margin-top: 14px;">
-                        <span style="font-size: 11px; font-weight: 700; background: #FFEDD5; color: #EA580C; padding: 3px 8px; border-radius: 6px; letter-spacing: 0.03em;">DIAGRAMS</span>
-                    </div>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
 
     # ==========================================================================
     # BRANCH 2: STAGING SCREEN (Material uploaded, waiting for "Analyze Material")
