@@ -1,34 +1,111 @@
 # SnapStudy AI 📚
+### Multimodal AI Visual Study Assistant & Tutoring Dashboard
 
-A Visual Study Assistant powered by Gemini and Streamlit.
-
-SnapStudy AI helps students learn difficult concepts, solve challenging questions step-by-step, decode diagrams, and understand code snippets from textbook photos or notes. When a study session finishes, SnapStudy AI generates a concise study revision summary and emails it directly to the student via Gmail SMTP.
-
----
-
-## ✨ Features
-
-- **Study material image upload**: Supports JPG, JPEG, PNG, and WEBP formats.
-- **Gemini Vision analysis**: Accurately interprets handwritten notes, textbook pages, math formulas, code, and diagrams.
-- **Text/transcription extraction**: Transcribes text, equations, and code snippets directly from the uploaded material.
-- **Step-by-step explanations**: Solves quantitative and theoretical problems clearly showing each logical step.
-- **Mathematical problem solving**: Handles algebra, calculus, arithmetic, and quantitative reasoning with LaTeX formatting.
-- **Programming/code understanding**: Decodes algorithms, syntax, edge cases, and optimizations.
-- **Follow-up questions**: Interactive study chat anchored strictly to the educational context of the uploaded content.
-- **Practice question generation**: Generates related practice problems to reinforce student learning.
-- **Study summary**: High-yield revision sheet summarizing key formulas, definitions, and takeaways.
-- **Email summary**: Dispatches personalized study notes to the student's email using Python's standard `smtplib`.
-- **Gemini retry/fallback handling**: Seamless automatic model fallback pipeline (`gemini-3.8-flash` → `gemini-3.6-flash` → `gemini-3.5-flash-lite`) for temporary demand spikes (503 / 429) without user downtime.
+SnapStudy AI is an educational web application designed to help students master complex academic materials. Built with **Streamlit** and powered by **Google Gemini Vision** via the official `google-genai` SDK, SnapStudy AI transcribes, analyzes, and explains textbook pages, handwritten notes, mathematical equations, technical diagrams, and code snippets from uploaded images. It supports interactive follow-up tutoring and can generate and email high-yield revision summaries directly to the student.
 
 ---
 
-## 🛠️ Technology Stack
+## 📌 Problem Statement
 
-- **Python** (Core application logic)
-- **Streamlit** (Interactive web application interface)
-- **Google Gemini API** (via official `google-genai` Python SDK)
-- **Pillow** (Image format handling & validation)
-- **SMTP** (Python standard library `smtplib` for email delivery)
+Students frequently encounter complex homework questions, handwritten derivations, architectural diagrams, and algorithmic code snippets while preparing for exams. Traditional search engines and standard text-only LLMs present significant friction:
+1. Students cannot easily copy/paste equations, circuit diagrams, or handwritten lecture notes.
+2. Default AI chatbots often give immediate raw answers without teaching the foundational principles or step-by-step derivation.
+3. Students lack an automated mechanism to synthesize their interactive learning sessions into consolidated, high-yield revision sheets for quick exam prep.
+
+---
+
+## 💡 Solution
+
+**SnapStudy AI** solves this by providing a unified, multimodal learning dashboard:
+- **Instant Visual Ingestion**: Upload photos or screenshots directly in PNG, JPG, or WEBP format.
+- **Pedagogical Structure**: Deconstructs every uploaded problem into structured educational components: *Material Overview*, *Transcription*, *Concept Explanation*, *Step-by-Step Solution*, and *Practice Questions*.
+- **Interactive Tutoring**: Allows students to ask follow-up questions anchored strictly to their study material.
+- **Automated Revision Summaries**: Compiles the entire session's lessons into an exam revision sheet and delivers it via SMTP to the student's email.
+- **Enterprise Resilience**: Features an automatic multi-model fallback pipeline that shields students from API rate limits and temporary traffic spikes.
+
+---
+
+## ✨ Main Features
+
+- 📷 **Multimodal Image Analysis**: Accurately interprets handwritten classroom notes, textbook problems, mathematical formulas, and scientific diagrams.
+- 🧮 **Step-by-Step Problem Solving**: Generates detailed, step-by-step mathematical solutions with LaTeX formula rendering via KaTeX.
+- 💻 **Code & Diagram Explanation**: Explains programming logic, syntax, edge cases, time/space complexity, and flowchart workflows.
+- 💬 **Interactive Chat Composer**: Full-width study composer with quick-prompt chips (*Explain this simply*, *Give me an example*, *Create practice questions*, *Explain step by step*).
+- 🎯 **Targeted Practice Generator**: Proposes subject-specific practice questions to test and reinforce conceptual mastery.
+- 📧 **Automated Revision Notes to Email**: Generates a formatted study sheet and emails it directly to the student via Gmail SMTP.
+- 🛡️ **Zero-Downtime Model Fallback**: Automatically cascades through fallback models (`gemini-3.8-flash` → `gemini-3.6-flash` → `gemini-3.5-flash-lite`) if a temporary 503 or 429 is encountered.
+- 🔒 **Safe In-Memory Processing**: Uploaded images are buffered in RAM and never written to disk, preventing persistent file exposure.
+
+---
+
+## 🛠️ Technologies Used
+
+| Technology | Purpose |
+|---|---|
+| **Python 3.10+** | Core programming language & backend logic |
+| **Streamlit** | Modern reactive web frontend and session state management |
+| **Google GenAI SDK (`google-genai`)** | Official Python client for Gemini Vision and Multimodal models |
+| **Pillow (`PIL`)** | In-memory image validation and format handling |
+| **SMTP (`smtplib`, `email.mime`)** | Python standard library for dispatching revision summaries via TLS |
+| **TOML** | Configuration and secret isolation (`secrets.toml`) |
+
+---
+
+## 🤖 AI & Gemini Vision Integration
+
+SnapStudy AI connects to the Google Gemini API using the modern `google-genai` SDK:
+- **Multimodal Pipeline**: Uploaded binary image data is wrapped into `types.Part.from_bytes` and transmitted alongside custom pedagogical prompts.
+- **Curated Model Pipeline**:
+  1. `gemini-3.8-flash` (Primary high-speed multimodal reasoning model)
+  2. `gemini-3.6-flash` (Secondary fallback model)
+  3. `gemini-3.5-flash-lite` (Tertiary high-availability fallback model)
+- **Pedagogical Guardrails**: System instructions in `prompts.py` keep Gemini strictly focused on educational topics and prevent off-topic distractions.
+- **Error Classification**: Identifies retryable errors (HTTP 503, 429) vs. permanent errors (HTTP 401, 400), executing immediate model failover with zero manual intervention required by the student.
+
+---
+
+## 🖼️ Supported Image Formats
+
+SnapStudy AI accepts all standard image formats commonly captured by student smartphones, webcams, and screenshot tools:
+- **PNG** (`image/png`)
+- **JPG / JPEG** (`image/jpeg`)
+- **WEBP** (`image/webp`)
+
+*Maximum recommended file size: 200MB per file. Processing is performed completely in-memory.*
+
+---
+
+## 🔄 Application Workflow
+
+```text
+[ Student Profile Setup ]
+          │
+          ▼
+[ Upload Study Material (PNG / JPG / WEBP) ]
+          │
+          ▼
+[ In-Memory Binary Validation ]
+          │
+          ▼
+[ Gemini Multimodal Vision Pipeline ] ──(If 503/429)──► [ Automatic Fallback Model ]
+          │
+          ▼
+[ 5-Tier Structured Analysis Display ]
+  ├── 🔍 What I Found
+  ├── 🧠 Concept Explanation
+  ├── 📝 Step-by-Step Solution
+  ├── ✅ Final Answer
+  └── 🎯 Practice Questions
+          │
+          ▼
+[ Interactive Tutoring Chat & Quick Prompts ]
+          │
+          ▼
+[ Generate Study Revision Summary ]
+          │
+          ▼
+[ SMTP Dispatch to Student's Email ]
+```
 
 ---
 
@@ -36,30 +113,36 @@ SnapStudy AI helps students learn difficult concepts, solve challenging question
 
 ```text
 SnapStudy-AI/
-├── app.py                      # Main Streamlit application with chat & vision workflow
-├── prompts.py                  # Educational system instructions & prompt templates
-├── requirements.txt            # Minimal dependencies (streamlit, google-genai, pillow)
-├── README.md                   # Complete documentation and setup guide
-├── .gitignore                  # Ignores secrets.toml, virtual environments, and caches
-└── .streamlit/
-    └── secrets.toml.example    # Configuration template for Gemini and Gmail SMTP
+├── app.py                      # Main Streamlit application, UI layout, & workflow
+├── prompts.py                  # Educational prompts & structured system instructions
+├── requirements.txt            # Application dependencies
+├── README.md                   # Project documentation & setup instructions
+├── .gitignore                  # Git ignore rules (secrets, virtualenv, caches)
+├── .streamlit/
+│   ├── secrets.toml            # Private local credentials (ignored by Git)
+│   └── secrets.toml.example    # Configuration template for deployment
+└── tests/
+    ├── test_suite.py           # Automated 12-test comprehensive verification suite
+    └── sample_materials/       # Test images (math_problem.png, physics_notes.jpg, code_snippet.webp)
 ```
 
 ---
 
-## 🚀 Quickstart & Setup Guide
+## 💻 Installation & Setup
 
 ### 1. Prerequisites
-- Python 3.10 or higher
-- A Google Gemini API Key from [Google AI Studio](https://aistudio.google.com/)
-- A Gmail account with an **App Password** (for sending study summaries)
+- Python 3.10, 3.11, 3.12, or 3.13
+- A Google Gemini API Key ([Google AI Studio](https://aistudio.google.com/))
+- (Optional) Gmail Account with an **App Password** for sending email summaries
 
-### 2. Navigate to the Project Directory
+### 2. Clone the Repository
 ```bash
+git clone https://github.com/your-username/SnapStudy-AI.git
 cd SnapStudy-AI
 ```
 
 ### 3. Create and Activate a Virtual Environment
+
 - **Windows (PowerShell)**:
   ```powershell
   python -m venv venv
@@ -76,8 +159,11 @@ cd SnapStudy-AI
 pip install -r requirements.txt
 ```
 
-### 5. Configure Secrets
-1. Copy the example secrets file:
+---
+
+## 🔐 Environment & Secrets Setup
+
+1. Copy the template secrets file:
    - **Windows**:
      ```powershell
      Copy-Item .streamlit\secrets.toml.example .streamlit\secrets.toml
@@ -86,58 +172,87 @@ pip install -r requirements.txt
      ```bash
      cp .streamlit/secrets.toml.example .streamlit/secrets.toml
      ```
-2. Open `.streamlit/secrets.toml` in your editor and enter your values:
-   ```toml
-   # Google Gemini API Key
-   GEMINI_API_KEY = "your_actual_gemini_api_key"
 
-   # Preferred model (gemini-3.8-flash with automatic fallback)
+2. Open `.streamlit/secrets.toml` and configure your credentials:
+   ```toml
+   # Google Gemini API Key (Required)
+   GEMINI_API_KEY = "your_actual_gemini_api_key_here"
+
+   # Preferred primary model
    GEMINI_MODEL = "gemini-3.8-flash"
 
-   # Gmail SMTP Settings
-   SMTP_EMAIL = "your_sender_gmail@gmail.com"
-   SMTP_APP_PASSWORD = "your_16_character_app_password"
+   # Gmail SMTP Settings for Email Summaries (Optional)
+   SMTP_EMAIL = "your_email@gmail.com"
+   SMTP_APP_PASSWORD = "your_16_char_app_password"
    SMTP_SERVER = "smtp.gmail.com"
    SMTP_PORT = 587
    ```
 
-> ⚠️ **Important Security Note**: The `.streamlit/secrets.toml` file contains your private credentials and is already added to `.gitignore`. Never commit or share this file publicly.
+> 🔒 **Security Notice**: `.streamlit/secrets.toml` is strictly ignored by Git in `.gitignore`. Never commit or share your API keys or email passwords publicly.
 
 ---
 
-## 🔑 How to Obtain Credentials
+## 🚀 How to Run Locally
 
-### 1. Google Gemini API Key
-1. Visit [Google AI Studio](https://aistudio.google.com/).
-2. Sign in with your Google account.
-3. Click **Get API key** > **Create API key**.
-4. Copy the generated key into `.streamlit/secrets.toml` under `GEMINI_API_KEY`.
-
-### 2. Gmail App Password (for Email Summaries)
-Gmail does not allow standard account passwords for SMTP. You must generate an App Password:
-1. Go to your [Google Account Security Settings](https://myaccount.google.com/security).
-2. Enable **2-Step Verification** (if not already enabled).
-3. Under *How you sign in to Google*, click on **2-Step Verification**, scroll down and select **App passwords**.
-4. Enter an app name (e.g. `SnapStudy AI`) and click **Create**.
-5. Copy the generated 16-character password into `.streamlit/secrets.toml` under `SMTP_APP_PASSWORD`.
-
----
-
-## 🏃 Running the Application
-
-Launch the Streamlit web application:
+Start the Streamlit application:
 ```bash
 python -m streamlit run app.py
 ```
 
-Streamlit will start a local web server (usually at `http://localhost:8501`).
+The web dashboard will automatically launch in your browser at:
+```text
+http://localhost:8501
+```
 
 ---
 
-## 💡 How to Use the App
+## 🧪 Testing & Verification
 
-1. **Enter Your Details**: Fill in your Name and Email in the sidebar onboarding form.
-2. **Upload Study Material**: Drop an image of textbook exercises, homework questions, handwritten notes, equations, diagrams, or code into the sidebar uploader.
-3. **Analyze**: Click **Analyze Material** to let Gemini Vision interpret the image and present an initial breakdown.
-4. **Ask Follow-Up Questions**: Use the chat bar to ask for clarification, simpler analogies, or more practice problems.
-5. **Get Your Revision Notes**: Click **Send Summary to Email** in the sidebar to have Gemini compile a study summary and dispatch it straight to your inbox!
+SnapStudy AI includes an automated 12-test verification suite that tests all aspects of configuration, security, failure resilience, and multimodal calls:
+
+```bash
+# Run the automated test suite
+python tests/test_suite.py
+```
+
+### Test Coverage Summary:
+- **Test 1**: Application startup and model pipeline hierarchy
+- **Test 2**: Student email format validation
+- **Test 3**: Image format ingestion (PNG, JPG, WEBP)
+- **Test 4, 6, 12**: Live Gemini Vision analysis, interactive chat, and latency benchmarks
+- **Test 5**: HTTP 503, 429, 401, and 400 error classification
+- **Test 7**: Text-only chat handling without image context
+- **Test 8**: Session state clearing and workspace reset
+- **Test 9**: SMTP email error handling and credential validation
+- **Test 10**: Security isolation audit (verifying no hardcoded keys)
+- **Test 11**: End-to-end failover resilience simulation
+
+---
+
+## 📸 Screenshots & UI Showcase
+
+| Screen | Description |
+|---|---|
+| **Study Dashboard** | Clean, light-theme educational interface with profile controls and format badges. |
+| **Visual Ingestion** | Full-width dashed dropzone supporting drag-and-drop for PNG, JPG, and WEBP. |
+| **Structured Breakdown** | 5 distinct visual cards: *What I Found*, *Concept Explanation*, *Step-by-Step*, *Final Answer*, and *Practice*. |
+| **Interactive Composer** | Full-width document-flow chat input with suggestion chips and responsive send button. |
+
+---
+
+## 🔮 Future Enhancements
+
+- 📄 **Multi-Page PDF Support**: Ability to upload and parse multi-page syllabus PDFs or complete exam papers.
+- 🎙️ **Voice Interaction**: Integration of speech-to-text and audio feedback for hands-free audio study sessions.
+- 🗂️ **Flashcard Export**: One-click export of generated practice questions into Anki and Quizlet-compatible CSV formats.
+- 📊 **Progress Analytics**: Student learning history dashboard tracking completed topics and mastered concepts over time.
+
+---
+
+## 👨‍💻 Author & Project Credits
+
+- **Project**: SnapStudy AI – Visual Study Assistant
+- **Curriculum / Category**: BCA Final-Year Project / AI & Cloud Computing Portfolio
+- **Developer**: Rizwan
+- **AI Platform**: Google Gemini API via `google-genai` SDK
+- **UI Framework**: Streamlit Open Source
