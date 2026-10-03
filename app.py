@@ -912,6 +912,17 @@ def main():
                 margin: 0 !important;
             }
 
+            /* Ensure internal wrappers inside buttons never produce nested borders or background boxes */
+            button *:not([data-testid="stIconMaterial"]),
+            div[data-testid="stButton"] button *,
+            div[data-testid="stFormSubmitButton"] button *,
+            div[data-testid="stFileUploader"] button * {
+                background: transparent !important;
+                border: none !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+            }
+
             /* Base button styling */
             div[data-testid="stButton"] button,
             div[data-testid="stFormSubmitButton"] button,
@@ -995,8 +1006,7 @@ def main():
             }
 
             /* 5. FIX THE "ANALYZE MATERIAL" BUTTON */
-            .analyze-coral-btn button,
-            .analyze-coral-btn button * {
+            .analyze-coral-btn button {
                 background-color: #4F46E5 !important;
                 color: #FFFFFF !important;
                 font-weight: 600 !important;
@@ -1011,10 +1021,21 @@ def main():
                 align-items: center !important;
                 justify-content: center !important;
                 gap: 8px !important;
+                padding: 10px 20px !important;
+                box-sizing: border-box !important;
             }
 
-            .analyze-coral-btn button:hover,
-            .analyze-coral-btn button:hover * {
+            .analyze-coral-btn button * {
+                background: transparent !important;
+                border: none !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                color: #FFFFFF !important;
+            }
+
+            .analyze-coral-btn button:hover {
                 background-color: #4338CA !important;
                 border-color: #4338CA !important;
                 color: #FFFFFF !important;
@@ -1122,8 +1143,7 @@ def main():
             }
 
             /* Save Profile Button (Full Width, Purple, White Text) */
-            section[data-testid="stSidebar"] div[data-testid="stFormSubmitButton"] button,
-            section[data-testid="stSidebar"] div[data-testid="stFormSubmitButton"] button * {
+            section[data-testid="stSidebar"] div[data-testid="stFormSubmitButton"] button {
                 width: 100% !important;
                 height: 48px !important;
                 min-height: 48px !important;
@@ -1139,10 +1159,21 @@ def main():
                 text-align: center !important;
                 transition: all 0.15s ease !important;
                 box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25) !important;
+                box-sizing: border-box !important;
+                padding: 8px 16px !important;
             }
 
-            section[data-testid="stSidebar"] div[data-testid="stFormSubmitButton"] button:hover,
-            section[data-testid="stSidebar"] div[data-testid="stFormSubmitButton"] button:hover * {
+            section[data-testid="stSidebar"] div[data-testid="stFormSubmitButton"] button * {
+                background: transparent !important;
+                border: none !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                color: #FFFFFF !important;
+            }
+
+            section[data-testid="stSidebar"] div[data-testid="stFormSubmitButton"] button:hover {
                 background-color: var(--primary-hover) !important;
                 border-color: var(--primary-hover) !important;
                 color: #FFFFFF !important;
@@ -1324,6 +1355,7 @@ def main():
             [data-testid="stFileUploaderDropzone"],
             [data-testid="stFileUploadDropzone"],
             section[data-testid="stFileUploadDropzone"],
+            section[data-testid="stFileUploaderDropzone"],
             div[data-testid="stFileUploader"] section {
                 background-color: #FAFAFF !important;
                 border: 2px dashed var(--border-input) !important;
@@ -1333,32 +1365,76 @@ def main():
                 color: var(--text-secondary) !important;
                 transition: all 0.2s ease !important;
                 box-sizing: border-box !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
+                gap: 12px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                cursor: pointer !important;
+                overflow: hidden !important;
             }
 
             [data-testid="stFileUploaderDropzone"]:hover,
             [data-testid="stFileUploadDropzone"]:hover,
             section[data-testid="stFileUploadDropzone"]:hover,
+            section[data-testid="stFileUploaderDropzone"]:hover,
             div[data-testid="stFileUploader"] section:hover {
                 border-color: var(--primary) !important;
                 background-color: #F5F7FF !important;
             }
 
+            /* Container inside dropzone holding button & instructions */
+            div[data-testid="stFileUploader"] section > div {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
+                gap: 8px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
             /* Single, clean Upload button inside dropzone */
-            div[data-testid="stFileUploader"] section button,
-            div[data-testid="stFileUploader"] section button * {
+            div[data-testid="stFileUploader"] section button {
                 background-color: #FFFFFF !important;
                 color: var(--text-main) !important;
                 border: 1px solid var(--border-input) !important;
                 border-radius: 8px !important;
-                font-size: 13.5px !important;
+                font-size: 14px !important;
                 font-weight: 600 !important;
-                padding: 8px 18px !important;
+                padding: 8px 22px !important;
+                min-height: 40px !important;
+                height: 40px !important;
                 margin: 0 auto !important;
                 box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+                display: inline-flex !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                justify-content: center !important;
+                gap: 6px !important;
+                cursor: pointer !important;
+                width: auto !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
             }
 
-            div[data-testid="stFileUploader"] section button:hover,
-            div[data-testid="stFileUploader"] section button:hover * {
+            /* CRITICAL: Child elements inside upload button never receive borders or nested boxes */
+            div[data-testid="stFileUploader"] section button * {
+                background: transparent !important;
+                border: none !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                color: inherit !important;
+                display: inline-flex !important;
+                align-items: center !important;
+            }
+
+            div[data-testid="stFileUploader"] section button:hover {
                 background-color: #F1F5F9 !important;
                 border-color: var(--text-muted) !important;
                 color: var(--text-main) !important;
@@ -1366,14 +1442,43 @@ def main():
 
             div[data-testid="stFileUploader"] section button span[data-testid="stIconMaterial"] {
                 color: var(--primary) !important;
-                font-size: 18px !important;
+                font-size: 19px !important;
+                display: inline-block !important;
+                line-height: 1 !important;
+                margin-right: 4px !important;
             }
 
-            div[data-testid="stFileUploader"] section div,
-            div[data-testid="stFileUploader"] section span:not([data-testid="stIconMaterial"]),
-            div[data-testid="stFileUploader"] section small {
+            /* Dropzone instructions (e.g. 200MB per file • PNG, JPG, WEBP) */
+            div[data-testid="stFileUploaderDropzoneInstructions"],
+            div[data-testid="stFileUploader"] [data-testid="stFileUploaderDropzoneInstructions"] {
+                text-align: center !important;
                 color: var(--text-secondary) !important;
                 font-size: 13px !important;
+                width: 100% !important;
+                display: block !important;
+                margin: 0 auto !important;
+            }
+
+            div[data-testid="stFileUploaderDropzoneInstructions"] * {
+                color: var(--text-secondary) !important;
+                font-size: 13px !important;
+                text-align: center !important;
+            }
+
+            /* Sidebar-specific file uploader containment */
+            section[data-testid="stSidebar"] [data-testid="stFileUploader"] {
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+                overflow: hidden !important;
+            }
+
+            section[data-testid="stSidebar"] [data-testid="stFileUploader"] section {
+                padding: 16px 10px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+                overflow: hidden !important;
             }
 
             /* ==================================================================
