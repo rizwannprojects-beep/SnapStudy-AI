@@ -580,7 +580,7 @@ def render_structured_analysis(content: str):
     )
 
     if not has_standard_headers or len(parts) <= 1:
-        st.markdown(f'<div class="analysis-content">\n\n{content}\n\n</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="analysis-content analysis-scroll-box">\n\n{content}\n\n</div>', unsafe_allow_html=True)
         return
 
     for part in parts:
@@ -747,69 +747,74 @@ def main():
         """
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
 
             /* ==================================================================
-               1. UNIFIED DESIGN SYSTEM VARIABLES (LIGHT THEME)
+               1. UNIFIED DESIGN SYSTEM (LIGHT ACADEMIC AI DASHBOARD)
                ================================================================== */
             :root {
-                /* Core Colors */
-                --primary: #5146E5;
+                --primary: #4F46E5;
                 --primary-hover: #4338CA;
-                --secondary: #06B6D4;
-                --accent: #7C3AED;
+                --accent: #06B6D4;
+                --secondary: #7C3AED;
                 --success: #10B981;
                 --warning: #F59E0B;
                 --error: #EF4444;
 
-                /* Typography Colors */
                 --text-main: #172033;
                 --text-secondary: #64748B;
                 --text-muted: #94A3B8;
 
-                /* Backgrounds & Surfaces */
                 --bg-page: #F5F7FF;
                 --bg-card: #FFFFFF;
-                --bg-sidebar: #EEF2FF;
+                --bg-sidebar: #EEF1FF;
                 --bg-input: #FFFFFF;
                 --input-text: #172033;
-                --input-placeholder: #71809A;
+                --input-placeholder: #94A3B8;
 
-                /* Borders */
-                --border: #D8DFF0;
-                --border-input: #D5DDF0;
+                --border: #D9DDF0;
+                --border-input: #CBD5E1;
                 --border-soft: #E8ECF5;
-                --border-focus: #5146E5;
+                --border-focus: #4F46E5;
 
-                /* Spacing System */
-                --space-xs: 4px;
-                --space-sm: 8px;
-                --space-md: 12px;
-                --space-lg: 16px;
-                --space-xl: 24px;
-                --space-2xl: 32px;
-
-                /* Radii */
-                --radius-card: 14px;
+                --radius-card: 16px;
                 --radius-control: 10px;
                 --radius-badge: 20px;
                 --radius-sm: 6px;
 
-                /* Shadows */
                 --shadow-card: 0 4px 16px rgba(23, 32, 51, 0.04);
                 --shadow-elevated: 0 8px 24px rgba(23, 32, 51, 0.08);
 
-                /* Content Grid */
-                --content-max-width: 1240px;
+                --content-max-width: 1280px;
             }
 
             /* ==================================================================
-               2. GLOBAL BASELINE & TYPOGRAPHY
+               2. GLOBAL BASELINE & MATERIAL ICONS PROTECTION
                ================================================================== */
-            html, body, [class*="css"], .stApp {
+            html, body, .stApp {
                 font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
                 color: var(--text-main) !important;
                 background-color: var(--bg-page) !important;
                 overflow-x: hidden !important;
+            }
+
+            /* Material Symbols font protection so icons never become text (e.g. 'uploadUpload') */
+            [data-testid="stIconMaterial"],
+            .material-symbols-rounded,
+            [class*="material-symbols"] {
+                font-family: 'Material Symbols Rounded' !important;
+                font-weight: normal !important;
+                font-style: normal !important;
+                font-size: 20px !important;
+                line-height: 1 !important;
+                letter-spacing: normal !important;
+                text-transform: none !important;
+                display: inline-block !important;
+                white-space: nowrap !important;
+                word-wrap: normal !important;
+                direction: ltr !important;
+                -webkit-font-feature-settings: 'liga' !important;
+                font-feature-settings: 'liga' !important;
             }
 
             /* Streamlit Decoration Line & Header Clean-up */
@@ -837,10 +842,7 @@ def main():
             /* Main Content Container & Alignment Grid */
             .stMainBlockContainer, .main .block-container {
                 max-width: var(--content-max-width) !important;
-                padding-top: 1.5rem !important;
-                padding-bottom: 2.5rem !important;
-                padding-left: 2rem !important;
-                padding-right: 2rem !important;
+                padding: 24px 32px !important;
                 margin-left: auto !important;
                 margin-right: auto !important;
                 box-sizing: border-box !important;
@@ -855,42 +857,39 @@ def main():
                 margin-top: 0 !important;
             }
 
-            h1 { font-size: 32px !important; font-weight: 700 !important; }
-            h2 { font-size: 24px !important; font-weight: 700 !important; }
-            h3 { font-size: 20px !important; font-weight: 700 !important; }
-            h4 { font-size: 16px !important; font-weight: 600 !important; }
-
-            p, span, label, div {
-                font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
-            }
+            h1 { font-size: 34px !important; line-height: 1.25 !important; }
+            h2 { font-size: 24px !important; line-height: 1.3 !important; }
+            h3 { font-size: 20px !important; line-height: 1.35 !important; }
+            h4 { font-size: 16px !important; line-height: 1.4 !important; }
 
             p {
                 line-height: 1.6 !important;
-                margin-bottom: var(--space-sm) !important;
+                color: var(--text-secondary);
+                margin-bottom: 8px !important;
             }
 
             /* ==================================================================
-               3. SIDEBAR ALIGNMENT & DESIGN (320px - 350px)
+               3. SIDEBAR ALIGNMENT & DESIGN (320px - 340px)
                ================================================================== */
             section[data-testid="stSidebar"] {
-                width: 340px !important;
+                width: 320px !important;
                 min-width: 320px !important;
-                max-width: 350px !important;
+                max-width: 340px !important;
                 background-color: var(--bg-sidebar) !important;
                 border-right: 1px solid var(--border) !important;
                 box-shadow: none !important;
             }
 
             section[data-testid="stSidebar"] > div:first-child {
-                padding: 1.5rem 1rem !important;
+                padding: 24px 16px !important;
             }
 
             .sidebar-section-title {
-                font-size: 13px;
+                font-size: 12.5px;
                 font-weight: 700;
                 color: var(--text-main);
-                letter-spacing: 0.02em;
-                margin-bottom: var(--space-sm);
+                letter-spacing: 0.04em;
+                margin-bottom: 12px;
                 display: flex;
                 align-items: center;
                 gap: 6px;
@@ -901,42 +900,41 @@ def main():
             section[data-testid="stSidebar"] div[data-testid="stVerticalBlock"] > div[data-testid="stVerticalBlockBorderWrapper"] {
                 background-color: var(--bg-card) !important;
                 border: 1px solid var(--border) !important;
-                border-radius: var(--radius-card) !important;
-                padding: var(--space-lg) !important;
-                margin-bottom: var(--space-md) !important;
+                border-radius: 14px !important;
+                padding: 18px 16px !important;
+                margin-bottom: 16px !important;
                 box-shadow: 0 2px 8px rgba(23, 32, 51, 0.03) !important;
             }
 
-            /* Student Profile Inputs & General Inputs */
-            div[data-testid="stTextInput"] {
+            /* Student Profile Inputs */
+            section[data-testid="stSidebar"] div[data-testid="stTextInput"] {
                 width: 100% !important;
-                margin-bottom: var(--space-sm) !important;
+                margin-bottom: 12px !important;
             }
 
-            div[data-testid="stTextInput"] div[data-baseweb="base-input"] {
+            section[data-testid="stSidebar"] div[data-testid="stTextInput"] div[data-baseweb="base-input"] {
                 background-color: #FFFFFF !important;
                 border: 1px solid var(--border-input) !important;
                 border-radius: var(--radius-control) !important;
-                transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
-                width: 100% !important;
+                height: 44px !important;
+                min-height: 44px !important;
+                transition: all 0.15s ease !important;
                 box-sizing: border-box !important;
-                height: 42px !important;
-                min-height: 42px !important;
                 padding: 0 !important;
             }
 
-            div[data-testid="stTextInput"] div[data-baseweb="base-input"]:focus-within {
-                border-color: var(--border-focus) !important;
-                box-shadow: 0 0 0 2px rgba(81, 70, 229, 0.15) !important;
+            section[data-testid="stSidebar"] div[data-testid="stTextInput"] div[data-baseweb="base-input"]:focus-within {
+                border: 2px solid var(--primary) !important;
+                box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12) !important;
             }
 
-            div[data-testid="stTextInput"] input {
+            section[data-testid="stSidebar"] div[data-testid="stTextInput"] input {
                 background-color: #FFFFFF !important;
-                color: #172033 !important;
-                caret-color: var(--border-focus) !important;
+                color: var(--text-main) !important;
+                caret-color: var(--primary) !important;
                 font-size: 14px !important;
                 font-weight: 500 !important;
-                padding: 10px 12px !important;
+                padding: 10px 14px !important;
                 width: 100% !important;
                 height: 100% !important;
                 box-sizing: border-box !important;
@@ -944,12 +942,20 @@ def main():
                 border-radius: var(--radius-control) !important;
             }
 
-            div[data-testid="stTextInput"] input::placeholder {
+            section[data-testid="stSidebar"] div[data-testid="stTextInput"] input::placeholder {
                 color: var(--input-placeholder) !important;
                 opacity: 1 !important;
             }
 
-            /* Hide helper instructions like 'Press Enter to submit form' */
+            section[data-testid="stSidebar"] div[data-testid="stTextInput"] label {
+                font-size: 13px !important;
+                font-weight: 600 !important;
+                color: var(--text-main) !important;
+                margin-bottom: 6px !important;
+                display: block !important;
+            }
+
+            /* Hide form instructions like 'Press Enter to submit form' */
             form[aria-label="sidebar_onboarding_form"] [data-testid="InputInstructions"],
             div[data-testid="stTextInput"] [data-testid="InputInstructions"],
             div[data-testid="InputInstructions"] {
@@ -961,14 +967,28 @@ def main():
                 padding: 0 !important;
             }
 
-            /* Input Labels */
-            div[data-testid="stTextInput"] label {
-                font-size: 13px !important;
+            /* Save Profile Button */
+            section[data-testid="stSidebar"] div[data-testid="stFormSubmitButton"] button {
+                width: 100% !important;
+                height: 44px !important;
+                min-height: 44px !important;
+                background-color: var(--primary) !important;
+                color: #FFFFFF !important;
+                border: 1px solid var(--primary) !important;
+                border-radius: var(--radius-control) !important;
                 font-weight: 600 !important;
-                color: var(--text-main) !important;
-                margin-bottom: var(--space-xs) !important;
-                display: block !important;
-                text-align: left !important;
+                font-size: 14px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                transition: all 0.15s ease !important;
+                box-shadow: 0 1px 3px rgba(79, 70, 229, 0.2) !important;
+            }
+
+            section[data-testid="stSidebar"] div[data-testid="stFormSubmitButton"] button:hover {
+                background-color: var(--primary-hover) !important;
+                border-color: var(--primary-hover) !important;
+                box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3) !important;
             }
 
             /* Sidebar File Uploader */
@@ -976,15 +996,25 @@ def main():
                 width: 100% !important;
             }
 
+            section[data-testid="stSidebar"] [data-testid="stFileUploaderDropzone"],
+            section[data-testid="stSidebar"] section[data-testid="stFileUploadDropzone"],
             section[data-testid="stSidebar"] [data-testid="stFileUploader"] section {
                 background-color: #FAFAFF !important;
-                border: 1px dashed var(--border) !important;
+                border: 2px dashed var(--border) !important;
                 border-radius: var(--radius-control) !important;
-                padding: 12px !important;
+                padding: 16px 10px !important;
+                text-align: center !important;
             }
 
-            section[data-testid="stSidebar"] [data-testid="stFileUploader"] section:hover {
-                border-color: var(--primary) !important;
+            section[data-testid="stSidebar"] [data-testid="stFileUploader"] button {
+                background-color: #FFFFFF !important;
+                color: var(--primary) !important;
+                border: 1px solid var(--border-input) !important;
+                border-radius: 8px !important;
+                font-size: 13px !important;
+                font-weight: 600 !important;
+                padding: 6px 14px !important;
+                margin: 0 auto !important;
             }
 
             /* Graceful truncation for long filenames */
@@ -1005,9 +1035,9 @@ def main():
                 background: var(--bg-card);
                 border: 1px solid var(--border);
                 border-radius: var(--radius-card);
-                padding: 14px 22px;
+                padding: 16px 24px;
                 box-shadow: var(--shadow-card);
-                margin-bottom: var(--space-lg);
+                margin-bottom: 20px;
                 box-sizing: border-box;
                 width: 100%;
             }
@@ -1023,8 +1053,8 @@ def main():
                 background: #EEF2FF;
                 border: 1px solid #C7D2FE;
                 border-radius: 10px;
-                width: 40px;
-                height: 40px;
+                width: 42px;
+                height: 42px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -1032,7 +1062,7 @@ def main():
             }
 
             .header-brand-title {
-                font-size: 18px;
+                font-size: 19px;
                 font-weight: 700;
                 color: var(--primary);
                 line-height: 1.2;
@@ -1040,7 +1070,7 @@ def main():
             }
 
             .header-brand-subtitle {
-                font-size: 12px;
+                font-size: 12.5px;
                 font-weight: 500;
                 color: var(--text-secondary);
                 line-height: 1.2;
@@ -1058,6 +1088,8 @@ def main():
                 border-radius: var(--radius-badge);
                 font-size: 12.5px;
                 font-weight: 600;
+                white-space: nowrap;
+                flex-shrink: 0;
             }
 
             .status-dot {
@@ -1074,60 +1106,59 @@ def main():
                 background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 50%, var(--secondary) 100%);
                 border-radius: 3px;
                 margin-top: -12px;
-                margin-bottom: var(--space-lg);
+                margin-bottom: 24px;
             }
 
             /* ==================================================================
-               5. MAIN CONTENT CARDS & SECTIONS
+               5. WELCOME & CARDS SYSTEM
                ================================================================== */
-            /* Streamlit container cards in main area */
-            .main div[data-testid="stVerticalBlockBorderWrapper"] {
-                background: var(--bg-card) !important;
-                border: 1px solid var(--border) !important;
-                border-radius: var(--radius-card) !important;
-                box-shadow: var(--shadow-card) !important;
-                padding: var(--space-lg) !important;
-                margin-bottom: var(--space-lg) !important;
-            }
-
             .hero-wrapper {
                 background: var(--bg-card);
                 border: 1px solid var(--border);
                 border-radius: var(--radius-card);
-                padding: 22px 24px;
+                padding: 32px;
                 box-shadow: var(--shadow-card);
-                margin-bottom: var(--space-lg);
+                margin-bottom: 24px;
                 box-sizing: border-box;
                 width: 100%;
             }
 
             .hero-heading {
-                font-size: 26px !important;
+                font-size: 34px !important;
                 font-weight: 700 !important;
                 color: var(--text-main) !important;
-                margin: 0 0 6px 0 !important;
-                line-height: 1.3 !important;
+                margin: 0 0 8px 0 !important;
+                line-height: 1.25 !important;
             }
 
             .hero-subheading {
-                font-size: 14.5px !important;
+                font-size: 16px !important;
                 color: var(--text-secondary) !important;
-                line-height: 1.5 !important;
                 margin: 0 !important;
+                line-height: 1.5 !important;
             }
 
-            /* Workspace Card Header */
+            /* Container cards in main content */
+            .main div[data-testid="stVerticalBlockBorderWrapper"] {
+                background: var(--bg-card) !important;
+                border: 1px solid var(--border) !important;
+                border-radius: var(--radius-card) !important;
+                box-shadow: var(--shadow-card) !important;
+                padding: 24px !important;
+                margin-bottom: 24px !important;
+            }
+
             .workspace-card-header {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                padding-bottom: var(--space-md);
+                padding-bottom: 14px;
                 border-bottom: 1px solid var(--border-soft);
-                margin-bottom: var(--space-md);
+                margin-bottom: 16px;
             }
 
             .workspace-card-title {
-                font-size: 16px;
+                font-size: 16.5px;
                 font-weight: 700;
                 color: var(--text-main);
                 margin: 0;
@@ -1137,12 +1168,12 @@ def main():
             }
 
             /* ==================================================================
-               6. STUDY MATERIAL & IMAGE HANDLING
+               6. STUDY MATERIAL & FILE UPLOADER FIXES (NO BLACK BOX)
                ================================================================== */
             div[data-testid="stImage"] {
-                display: flex;
-                justify-content: center;
-                align-items: center;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
                 width: 100% !important;
                 margin: 0 auto !important;
             }
@@ -1151,55 +1182,67 @@ def main():
                 border-radius: 12px !important;
                 border: 1px solid var(--border) !important;
                 max-width: 100% !important;
-                height: auto !important;
+                max-height: 520px !important;
                 object-fit: contain !important;
                 box-shadow: 0 2px 8px rgba(23, 32, 51, 0.04) !important;
             }
 
-            /* File Uploader in Main Area */
-            .main [data-testid="stFileUploader"] {
-                width: 100% !important;
-            }
-
-            .main [data-testid="stFileUploader"] section {
+            /* Dropzone Light Styling */
+            [data-testid="stFileUploaderDropzone"],
+            [data-testid="stFileUploadDropzone"],
+            section[data-testid="stFileUploadDropzone"],
+            div[data-testid="stFileUploader"] section {
                 background-color: #FAFAFF !important;
                 border: 2px dashed var(--border) !important;
-                border-radius: var(--radius-control) !important;
+                border-radius: 12px !important;
                 padding: 24px 16px !important;
                 text-align: center !important;
+                color: var(--text-secondary) !important;
                 transition: all 0.2s ease !important;
             }
 
-            .main [data-testid="stFileUploader"] section:hover {
+            [data-testid="stFileUploaderDropzone"]:hover,
+            [data-testid="stFileUploadDropzone"]:hover,
+            section[data-testid="stFileUploadDropzone"]:hover,
+            div[data-testid="stFileUploader"] section:hover {
                 border-color: var(--primary) !important;
                 background-color: #F5F7FF !important;
             }
 
-            .main [data-testid="stFileUploader"] section button {
-                background-color: var(--primary) !important;
-                color: #FFFFFF !important;
-                border: 1px solid var(--primary) !important;
+            div[data-testid="stFileUploader"] section button {
+                background-color: #FFFFFF !important;
+                color: var(--primary) !important;
+                border: 1px solid var(--border-input) !important;
                 border-radius: 8px !important;
                 font-size: 13.5px !important;
                 font-weight: 600 !important;
-                padding: 6px 18px !important;
+                padding: 7px 18px !important;
                 margin: 0 auto !important;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
             }
 
-            .main [data-testid="stFileUploader"] section button:hover {
-                background-color: var(--primary-hover) !important;
-                border-color: var(--primary-hover) !important;
+            div[data-testid="stFileUploader"] section button:hover {
+                background-color: #EEF2FF !important;
+                border-color: var(--primary) !important;
+                color: var(--primary-hover) !important;
+            }
+
+            div[data-testid="stFileUploader"] section div,
+            div[data-testid="stFileUploader"] section span:not([data-testid="stIconMaterial"]),
+            div[data-testid="stFileUploader"] section small {
+                color: var(--text-secondary) !important;
+                font-size: 13px !important;
             }
 
             /* ==================================================================
                7. FEATURE CARDS RESPONSIVE GRID
                ================================================================== */
             .feature-section-title {
-                font-size: 18px;
+                font-size: 19px;
                 font-weight: 700;
                 color: var(--text-main);
-                margin-top: 20px;
-                margin-bottom: 12px;
+                margin-top: 24px;
+                margin-bottom: 14px;
                 display: flex;
                 align-items: center;
                 gap: 8px;
@@ -1209,7 +1252,7 @@ def main():
                 display: grid;
                 grid-template-columns: repeat(4, 1fr);
                 gap: 16px;
-                margin-bottom: var(--space-xl);
+                margin-bottom: 24px;
                 width: 100%;
                 box-sizing: border-box;
             }
@@ -1228,8 +1271,8 @@ def main():
 
             .feature-card-item {
                 border-radius: var(--radius-card);
-                padding: 20px 18px;
-                min-height: 175px;
+                padding: 22px 20px;
+                min-height: 180px;
                 height: 100%;
                 display: flex;
                 flex-direction: column;
@@ -1265,17 +1308,17 @@ def main():
             .card-diagrams .feature-icon-box { background: #FFEDD5; border: 1px solid #FED7AA; }
 
             .feature-title {
-                font-size: 15px;
+                font-size: 15.5px;
                 font-weight: 700;
                 margin-bottom: 6px;
             }
             .card-math .feature-title { color: var(--primary); }
-            .card-notes .feature-title { color: var(--accent); }
+            .card-notes .feature-title { color: var(--secondary); }
             .card-code .feature-title { color: #0891B2; }
             .card-diagrams .feature-title { color: #EA580C; }
 
             .feature-desc {
-                font-size: 13px;
+                font-size: 13.5px;
                 color: var(--text-secondary);
                 line-height: 1.5;
             }
@@ -1293,15 +1336,28 @@ def main():
                 display: inline-block;
             }
             .tag-indigo { background: #E0E7FF; color: var(--primary); }
-            .tag-violet { background: #EDE9FE; color: var(--accent); }
+            .tag-violet { background: #EDE9FE; color: var(--secondary); }
             .tag-cyan   { background: #CFFAFE; color: #0891B2; }
             .tag-coral  { background: #FFEDD5; color: #EA580C; }
 
             /* ==================================================================
-               8. ANALYSIS & SOLUTIONS VISUAL HIERARCHY
+               8. ANALYSIS SECTION (WITH SCROLL BOX)
                ================================================================== */
+            .analysis-scroll-box {
+                max-height: 640px;
+                overflow-y: auto;
+                padding-right: 8px;
+            }
+            .analysis-scroll-box::-webkit-scrollbar {
+                width: 6px;
+            }
+            .analysis-scroll-box::-webkit-scrollbar-thumb {
+                background: #CBD5E1;
+                border-radius: 4px;
+            }
+
             .analysis-content {
-                font-size: 14.5px;
+                font-size: 15px;
                 line-height: 1.65;
                 color: var(--text-main);
                 word-break: break-word;
@@ -1311,16 +1367,16 @@ def main():
             .analysis-content h2, .analysis-content h3 {
                 color: var(--text-main) !important;
                 font-weight: 700 !important;
-                margin-top: var(--space-lg) !important;
-                margin-bottom: var(--space-sm) !important;
+                margin-top: 20px !important;
+                margin-bottom: 8px !important;
             }
 
             .analysis-section-header {
                 display: flex;
                 align-items: center;
                 gap: 8px;
-                margin-top: var(--space-md);
-                margin-bottom: var(--space-sm);
+                margin-top: 14px;
+                margin-bottom: 8px;
                 padding-bottom: 6px;
             }
 
@@ -1345,20 +1401,20 @@ def main():
             }
 
             .pill-indigo { background: #EEF2FF; color: var(--primary); border: 1px solid #C7D2FE; }
-            .pill-violet { background: #F5F3FF; color: var(--accent); border: 1px solid #DDD6FE; }
+            .pill-violet { background: #F5F3FF; color: var(--secondary); border: 1px solid #DDD6FE; }
             .pill-cyan   { background: #ECFEFF; color: #0891B2; border: 1px solid #A5F3FC; }
             .pill-coral  { background: #FFF7ED; color: #EA580C; border: 1px solid #FED7AA; }
 
             .analysis-divider {
                 height: 1px;
                 background-color: var(--border-soft);
-                margin: var(--space-lg) 0;
+                margin: 20px 0;
             }
 
             /* Final Answer Highlight Box */
             .final-answer-card {
-                margin-top: var(--space-lg);
-                margin-bottom: var(--space-xs);
+                margin-top: 20px;
+                margin-bottom: 4px;
             }
 
             .final-answer-header {
@@ -1387,7 +1443,7 @@ def main():
                 font-size: 15px;
                 font-weight: 600;
                 line-height: 1.5;
-                margin-bottom: var(--space-lg);
+                margin-bottom: 20px;
             }
 
             /* Practice Card Box */
@@ -1396,7 +1452,7 @@ def main():
                 border: 1px solid var(--border);
                 border-radius: 12px;
                 padding: 14px 16px;
-                margin-bottom: var(--space-md);
+                margin-bottom: 12px;
                 font-size: 14px;
                 line-height: 1.6;
                 color: var(--text-main);
@@ -1419,12 +1475,12 @@ def main():
                 background: #F8FAFC;
                 border: 1px solid var(--border);
                 border-radius: var(--radius-control);
-                padding: 14px;
+                padding: 16px;
                 margin-bottom: 16px;
             }
 
             .stepper-header {
-                font-size: 13.5px;
+                font-size: 14px;
                 font-weight: 700;
                 color: var(--primary);
                 margin-bottom: 10px;
@@ -1448,9 +1504,9 @@ def main():
                 color: #F8FAFC !important;
                 border: 1px solid #374151 !important;
                 border-radius: var(--radius-control) !important;
-                padding: 12px 14px !important;
+                padding: 14px 16px !important;
                 overflow-x: auto !important;
-                font-size: 13px !important;
+                font-size: 13.5px !important;
                 line-height: 1.5 !important;
             }
 
@@ -1471,16 +1527,14 @@ def main():
                 border-radius: var(--radius-control) !important;
                 font-weight: 600 !important;
                 font-size: 13.5px !important;
-                padding: 8px 16px !important;
-                min-height: 40px !important;
-                height: 40px !important;
+                padding: 10px 16px !important;
+                min-height: 42px !important;
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
                 transition: all 0.15s ease !important;
                 box-sizing: border-box !important;
                 text-align: center !important;
-                width: 100% !important;
             }
 
             div[data-testid="stButton"] button[kind="primary"],
@@ -1494,17 +1548,17 @@ def main():
             div[data-testid="stFormSubmitButton"] button:hover {
                 background-color: var(--primary-hover) !important;
                 border-color: var(--primary-hover) !important;
-                box-shadow: 0 4px 12px rgba(81, 70, 229, 0.25) !important;
+                box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25) !important;
             }
 
             div[data-testid="stButton"] button[kind="secondary"] {
-                background-color: var(--bg-card) !important;
+                background-color: #FFFFFF !important;
                 color: var(--primary) !important;
-                border: 1px solid var(--border) !important;
+                border: 1px solid #C7D2FE !important;
             }
 
             div[data-testid="stButton"] button[kind="secondary"]:hover {
-                background-color: #F5F7FF !important;
+                background-color: #EEF2FF !important;
                 border-color: var(--primary) !important;
                 color: var(--primary-hover) !important;
             }
@@ -1519,21 +1573,21 @@ def main():
             }
 
             .analyze-coral-btn button {
-                background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%) !important;
+                background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%) !important;
                 color: #FFFFFF !important;
                 border: none !important;
-                box-shadow: 0 4px 14px rgba(81, 70, 229, 0.28) !important;
+                box-shadow: 0 4px 14px rgba(79, 70, 229, 0.28) !important;
             }
 
             .analyze-coral-btn button:hover {
-                box-shadow: 0 6px 18px rgba(81, 70, 229, 0.38) !important;
+                box-shadow: 0 6px 18px rgba(79, 70, 229, 0.38) !important;
                 transform: translateY(-1px) !important;
             }
 
             /* ==================================================================
-               10. CHAT COMPOSER & BOTTOM AREA
+               10. CHAT COMPOSER (CHATGPT-STYLE) & CHAT HISTORY
                ================================================================== */
-            /* Streamlit Bottom Block Override: Normal flow at bottom of content */
+            /* Normal flow at bottom of content - NO black box */
             div[data-testid="stBottom"] {
                 position: relative !important;
                 bottom: auto !important;
@@ -1541,7 +1595,7 @@ def main():
                 right: auto !important;
                 width: 100% !important;
                 max-width: var(--content-max-width) !important;
-                margin: var(--space-xl) auto var(--space-2xl) auto !important;
+                margin: 24px auto 32px auto !important;
                 padding: 0 !important;
                 background: transparent !important;
                 border-top: none !important;
@@ -1568,8 +1622,8 @@ def main():
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                margin-top: var(--space-xl);
-                margin-bottom: var(--space-sm);
+                margin-top: 24px;
+                margin-bottom: 12px;
                 padding: 0 2px;
                 width: 100%;
                 box-sizing: border-box;
@@ -1581,7 +1635,7 @@ def main():
             }
 
             .composer-title {
-                font-size: 15px;
+                font-size: 16px;
                 font-weight: 700;
                 color: var(--text-main);
                 display: flex;
@@ -1590,78 +1644,87 @@ def main():
             }
 
             .composer-subtitle {
-                font-size: 12px;
+                font-size: 13px;
                 color: var(--text-secondary);
-                margin-top: 1px;
+                margin-top: 2px;
             }
 
             .composer-attached-pill {
-                font-size: 11.5px;
+                font-size: 12px;
                 background: #EEF2FF;
                 color: var(--primary);
                 border: 1px solid #C7D2FE;
-                padding: 4px 10px;
+                padding: 4px 12px;
                 border-radius: var(--radius-badge);
                 font-weight: 600;
             }
 
             .composer-empty-pill {
-                font-size: 11.5px;
+                font-size: 12px;
                 background: #F1F5F9;
                 color: var(--text-secondary);
                 border: 1px solid #CBD5E1;
-                padding: 4px 10px;
+                padding: 4px 12px;
                 border-radius: var(--radius-badge);
                 font-weight: 500;
             }
 
+            /* Suggestion Chips */
             .composer-chip-btn button {
-                background: var(--bg-card) !important;
+                background: #FFFFFF !important;
                 border: 1px solid var(--border) !important;
                 color: var(--text-secondary) !important;
-                border-radius: var(--radius-badge) !important;
-                font-size: 12px !important;
-                padding: 4px 10px !important;
-                min-height: 32px !important;
-                height: 32px !important;
-                margin-bottom: var(--space-xs) !important;
-                box-shadow: none !important;
+                border-radius: 20px !important;
+                font-size: 13px !important;
+                font-weight: 500 !important;
+                padding: 6px 14px !important;
+                min-height: 38px !important;
+                height: 38px !important;
+                margin-bottom: 8px !important;
+                box-shadow: 0 1px 3px rgba(23, 32, 51, 0.03) !important;
+                transition: all 0.15s ease !important;
+                width: 100% !important;
             }
 
             .composer-chip-btn button:hover {
                 border-color: var(--primary) !important;
                 color: var(--primary) !important;
                 background: #F5F7FF !important;
+                box-shadow: 0 2px 6px rgba(79, 70, 229, 0.1) !important;
             }
 
-            /* Integrated Chat Input */
+            /* Modern ChatGPT-Style Chat Composer Card */
             div[data-testid="stChatInput"] {
-                background-color: var(--bg-card) !important;
+                background-color: #FFFFFF !important;
                 border: 1px solid var(--border) !important;
-                border-radius: var(--radius-card) !important;
-                box-shadow: var(--shadow-card) !important;
-                padding: 6px 14px !important;
+                border-radius: 18px !important;
+                box-shadow: 0 4px 20px rgba(23, 32, 51, 0.06) !important;
+                padding: 8px 12px !important;
+                min-height: 58px !important;
                 margin: 0 auto !important;
                 width: 100% !important;
                 box-sizing: border-box !important;
                 display: flex !important;
                 align-items: center !important;
+                transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
             }
 
             div[data-testid="stChatInput"]:focus-within {
                 border-color: var(--primary) !important;
-                box-shadow: 0 0 0 3px rgba(81, 70, 229, 0.12) !important;
+                box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12), 0 4px 20px rgba(79, 70, 229, 0.08) !important;
             }
 
             div[data-testid="stChatInput"] textarea {
                 background: transparent !important;
                 color: var(--text-main) !important;
                 caret-color: var(--primary) !important;
-                font-size: 14.5px !important;
+                font-size: 15px !important;
                 line-height: 1.5 !important;
                 border: none !important;
                 box-shadow: none !important;
-                padding: 8px 4px !important;
+                padding: 8px 10px !important;
+                resize: none !important;
+                width: 100% !important;
             }
 
             div[data-testid="stChatInput"] textarea::placeholder {
@@ -1672,45 +1735,62 @@ def main():
             div[data-testid="stChatInput"] button {
                 background-color: var(--primary) !important;
                 color: #FFFFFF !important;
-                border-radius: var(--radius-control) !important;
-                width: 38px !important;
-                height: 38px !important;
-                min-width: 38px !important;
-                min-height: 38px !important;
+                border-radius: 50% !important;
+                width: 44px !important;
+                height: 44px !important;
+                min-width: 44px !important;
+                min-height: 44px !important;
                 border: none !important;
                 display: flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-                transition: background-color 0.15s ease !important;
+                transition: all 0.15s ease !important;
+                flex-shrink: 0 !important;
             }
 
             div[data-testid="stChatInput"] button:hover {
                 background-color: var(--primary-hover) !important;
+                transform: scale(1.05) !important;
             }
 
             div[data-testid="stChatInput"] button:disabled {
-                background-color: #E2E8F0 !important;
+                background-color: #CBD5E1 !important;
                 color: var(--text-muted) !important;
                 cursor: not-allowed !important;
+                transform: none !important;
             }
 
-            /* Chat Message Bubbles */
+            div[data-testid="stChatInput"] button svg {
+                fill: #FFFFFF !important;
+                width: 20px !important;
+                height: 20px !important;
+            }
+
+            /* Distinct Chat Message Cards */
             div[data-testid="stChatMessage"] {
-                background-color: var(--bg-card) !important;
+                background-color: #FFFFFF !important;
                 border: 1px solid var(--border) !important;
-                border-radius: var(--radius-card) !important;
+                border-radius: 14px !important;
                 padding: 14px 18px !important;
-                margin-bottom: var(--space-md) !important;
+                margin-bottom: 14px !important;
                 box-shadow: 0 1px 4px rgba(23, 32, 51, 0.03) !important;
+                max-width: 88% !important;
+            }
+
+            div[data-testid="stChatMessage"][data-testid*="user"],
+            div[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]) {
+                background-color: #EEF2FF !important;
+                border-color: #C7D2FE !important;
+                margin-left: auto !important;
             }
 
             /* ==================================================================
-               11. ALERTS, EXPANDERS & MISC
+               11. ALERTS & EXPANDERS
                ================================================================== */
             div[data-testid="stAlert"] {
                 border-radius: var(--radius-control) !important;
-                padding: 10px 14px !important;
-                font-size: 13.5px !important;
+                padding: 12px 16px !important;
+                font-size: 14px !important;
                 box-shadow: none !important;
             }
 
@@ -1720,37 +1800,36 @@ def main():
 
             div[data-testid="stExpander"] {
                 border: 1px solid var(--border) !important;
-                border-radius: var(--radius-card) !important;
+                border-radius: 14px !important;
                 background: var(--bg-card) !important;
                 box-shadow: var(--shadow-card) !important;
             }
 
             /* ==================================================================
-               12. RESPONSIVE DESIGN (Desktop, Tablet, Mobile)
+               12. RESPONSIVE DESIGN
                ================================================================== */
             @media (max-width: 1024px) {
                 section[data-testid="stSidebar"] {
-                    width: 300px !important;
-                    min-width: 280px !important;
+                    width: 290px !important;
+                    min-width: 270px !important;
                 }
                 .stMainBlockContainer, .main .block-container {
-                    padding-left: 1.25rem !important;
-                    padding-right: 1.25rem !important;
+                    padding: 20px 20px !important;
+                }
+                .hero-heading {
+                    font-size: 28px !important;
+                }
+                .hero-wrapper {
+                    padding: 24px !important;
                 }
             }
 
             @media (max-width: 768px) {
-                .stMainBlockContainer, .main .block-container {
-                    padding-left: 1rem !important;
-                    padding-right: 1rem !important;
-                    padding-top: 1rem !important;
-                }
-
                 .snapstudy-header {
                     flex-direction: column !important;
                     align-items: flex-start !important;
                     gap: 12px !important;
-                    padding: 12px 14px !important;
+                    padding: 14px 18px !important;
                 }
 
                 .header-status {
@@ -1768,14 +1847,13 @@ def main():
                     align-items: flex-start !important;
                     gap: 6px !important;
                 }
+
+                .stMainBlockContainer, .main .block-container {
+                    padding: 16px 14px !important;
+                }
             }
 
             @media (max-width: 480px) {
-                .stMainBlockContainer, .main .block-container {
-                    padding-left: 0.75rem !important;
-                    padding-right: 0.75rem !important;
-                }
-
                 .header-brand-title {
                     font-size: 16px !important;
                 }
@@ -2219,7 +2297,7 @@ def main():
     # ==========================================================================
     else:
         # Two-Column Workspace Layout
-        col_material, col_solution = st.columns([5, 7], gap="large")
+        col_material, col_solution = st.columns([42, 58], gap="large")
 
         # LEFT COLUMN: Study Material
         with col_material:
