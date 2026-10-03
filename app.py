@@ -748,15 +748,70 @@ def main():
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-            /* Global Font & Theme Baseline */
+            /* ==================================================================
+               1. UNIFIED DESIGN SYSTEM VARIABLES
+               ================================================================== */
+            :root {
+                /* Core Palette */
+                --primary: #4F46E5;
+                --primary-hover: #4338CA;
+                --secondary: #7C3AED;
+                --accent: #06B6D4;
+                --success: #10B981;
+                --warning: #F59E0B;
+                --error: #EF4444;
+
+                /* Typography Colors */
+                --text-main: #172033;
+                --text-secondary: #64748B;
+                --text-muted: #94A3B8;
+
+                /* Backgrounds & Surfaces */
+                --bg-page: #F5F7FF;
+                --bg-card: #FFFFFF;
+                --bg-sidebar: #EEF2FF;
+                --bg-input: #1F2937;
+                --input-text: #FFFFFF;
+                --input-placeholder: #94A3B8;
+
+                /* Borders */
+                --border: #DDE3F0;
+                --border-soft: #E8ECF5;
+                --border-focus: #4F46E5;
+
+                /* Spacing Tokens */
+                --space-xs: 4px;
+                --space-sm: 8px;
+                --space-md: 12px;
+                --space-lg: 16px;
+                --space-xl: 24px;
+                --space-2xl: 32px;
+
+                /* Radii */
+                --radius-card: 14px;
+                --radius-control: 10px;
+                --radius-badge: 20px;
+                --radius-sm: 6px;
+
+                /* Shadows */
+                --shadow-card: 0 4px 16px rgba(23, 32, 51, 0.04);
+                --shadow-elevated: 0 8px 24px rgba(23, 32, 51, 0.08);
+
+                /* Content Grid */
+                --content-max-width: 1240px;
+            }
+
+            /* ==================================================================
+               2. GLOBAL BASELINE & TYPOGRAPHY
+               ================================================================== */
             html, body, [class*="css"], .stApp {
-                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-                color: #172033 !important;
-                background-color: #F5F7FF !important;
+                font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+                color: var(--text-main) !important;
+                background-color: var(--bg-page) !important;
                 overflow-x: hidden !important;
             }
 
-            /* Remove Streamlit top colored decoration line & transparent top bar */
+            /* Streamlit Decoration Line & Header Clean-up */
             div[data-testid="stDecoration"] {
                 display: none !important;
                 height: 0 !important;
@@ -774,57 +829,166 @@ def main():
                 top: 0.5rem !important;
             }
 
-            /* Container padding adjustments - Clean 1240px grid */
-            .block-container {
-                padding-top: 1.2rem !important;
-                padding-bottom: 1.6rem !important;
-                padding-left: 32px !important;
-                padding-right: 32px !important;
-                max-width: 1240px !important;
+            footer {
+                display: none !important;
+            }
+
+            /* Main Content Container & Alignment Grid */
+            .stMainBlockContainer, .main .block-container {
+                max-width: var(--content-max-width) !important;
+                padding-top: 1.5rem !important;
+                padding-bottom: 2.5rem !important;
+                padding-left: 2rem !important;
+                padding-right: 2rem !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+            }
+
+            /* Typography Hierarchy */
+            h1, h2, h3, h4, h5, h6 {
+                font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+                color: var(--text-main) !important;
+                font-weight: 700 !important;
+                letter-spacing: -0.02em !important;
+                margin-top: 0 !important;
+            }
+
+            h1 { font-size: 32px !important; }
+            h2 { font-size: 24px !important; }
+            h3 { font-size: 20px !important; }
+            h4 { font-size: 16px !important; }
+
+            p, span, label, div {
+                font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+            }
+
+            p {
+                line-height: 1.6 !important;
+                margin-bottom: var(--space-sm) !important;
+            }
+
+            /* ==================================================================
+               3. SIDEBAR ALIGNMENT & DESIGN
+               ================================================================== */
+            section[data-testid="stSidebar"] {
+                background-color: var(--bg-sidebar) !important;
+                border-right: 1px solid var(--border) !important;
+                box-shadow: none !important;
+            }
+
+            section[data-testid="stSidebar"] > div:first-child {
+                padding: 1.5rem 1rem !important;
+            }
+
+            .sidebar-section-title {
+                font-size: 13.5px;
+                font-weight: 700;
+                color: var(--text-main);
+                letter-spacing: -0.01em;
+                margin-bottom: var(--space-sm);
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+            /* Sidebar Card Containers */
+            section[data-testid="stSidebar"] div[data-testid="stVerticalBlock"] > div[data-testid="stVerticalBlockBorderWrapper"] {
+                background-color: var(--bg-card) !important;
+                border: 1px solid var(--border) !important;
+                border-radius: var(--radius-card) !important;
+                padding: var(--space-lg) !important;
+                margin-bottom: var(--space-md) !important;
+                box-shadow: 0 1px 3px rgba(23, 32, 51, 0.03) !important;
+            }
+
+            /* Student Profile Inputs & General Sidebar Inputs */
+            div[data-testid="stTextInput"] div[data-baseweb="base-input"] {
+                background-color: var(--bg-input) !important;
+                border: 1px solid #374151 !important;
+                border-radius: var(--radius-control) !important;
+                transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
                 width: 100% !important;
-                margin: 0 auto !important;
+                box-sizing: border-box !important;
+            }
+
+            div[data-testid="stTextInput"] div[data-baseweb="base-input"]:focus-within {
+                border-color: var(--primary) !important;
+                box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15) !important;
+            }
+
+            div[data-testid="stTextInput"] input {
                 background-color: transparent !important;
-                overflow-x: hidden !important;
-                box-sizing: border-box !important;
-            }
-
-            /* Expander Polish */
-            [data-testid="stExpander"] {
-                background: #FFFFFF !important;
-                border: 1px solid #DDE3F0 !important;
-                border-radius: 12px !important;
-                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02) !important;
-                margin-top: 12px !important;
-            }
-
-            [data-testid="stExpander"] summary {
-                color: #172033 !important;
-                font-weight: 600 !important;
-            }
-
-            [data-testid="stExpander"] summary:hover {
-                color: #4F46E5 !important;
-            }
-
-            /* Alert Polish */
-            div[data-testid="stAlert"] {
-                border-radius: 10px !important;
-                border: 1px solid #DDE3F0 !important;
-            }
-
-            /* Modern Compact Header */
-            .snapstudy-header {
-                display: flex !important;
-                justify-content: space-between !important;
-                align-items: center !important;
-                background: #FFFFFF !important;
-                border: 1px solid #DDE3F0 !important;
-                border-radius: 14px !important;
-                padding: 16px 24px !important;
-                margin-bottom: 8px !important;
-                box-shadow: 0 1px 4px rgba(79, 70, 229, 0.04) !important;
+                color: var(--input-text) !important;
+                caret-color: var(--input-text) !important;
+                font-size: 14px !important;
+                font-weight: 400 !important;
+                padding: 9px 12px !important;
                 width: 100% !important;
-                box-sizing: border-box !important;
+            }
+
+            div[data-testid="stTextInput"] input::placeholder {
+                color: var(--input-placeholder) !important;
+                opacity: 1 !important;
+            }
+
+            /* Hide form instructions like 'Press Enter to submit' */
+            form[aria-label="sidebar_onboarding_form"] [data-testid="InputInstructions"],
+            div[data-testid="stTextInput"] [data-testid="InputInstructions"] {
+                display: none !important;
+                visibility: hidden !important;
+                height: 0 !important;
+                overflow: hidden !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            /* Input Labels */
+            div[data-testid="stTextInput"] label {
+                font-size: 13px !important;
+                font-weight: 600 !important;
+                color: var(--text-main) !important;
+                margin-bottom: var(--space-xs) !important;
+            }
+
+            /* Sidebar File Uploader */
+            section[data-testid="stSidebar"] [data-testid="stFileUploader"] {
+                width: 100% !important;
+            }
+
+            section[data-testid="stSidebar"] [data-testid="stFileUploader"] section {
+                background-color: #FAFAFF !important;
+                border: 1px dashed var(--border) !important;
+                border-radius: var(--radius-control) !important;
+                padding: 12px !important;
+            }
+
+            section[data-testid="stSidebar"] [data-testid="stFileUploader"] section:hover {
+                border-color: var(--primary) !important;
+            }
+
+            /* Graceful truncation for long filenames */
+            section[data-testid="stSidebar"] [data-testid="stCaptionContainer"] {
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                max-width: 100% !important;
+            }
+
+            /* ==================================================================
+               4. TOP HEADER CARD
+               ================================================================== */
+            .snapstudy-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                background: var(--bg-card);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-card);
+                padding: 14px 20px;
+                box-shadow: var(--shadow-card);
+                margin-bottom: var(--space-lg);
+                box-sizing: border-box;
+                width: 100%;
             }
 
             .header-brand {
@@ -835,7 +999,7 @@ def main():
 
             .header-brand-icon {
                 font-size: 22px;
-                background: linear-gradient(135deg, #EEF2FF 0%, #F5F3FF 100%);
+                background: #EEF2FF;
                 border: 1px solid #C7D2FE;
                 border-radius: 10px;
                 width: 40px;
@@ -843,30 +1007,34 @@ def main():
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                flex-shrink: 0;
             }
 
             .header-brand-title {
-                font-size: 17px;
+                font-size: 18px;
                 font-weight: 700;
-                color: #4F46E5;
+                color: var(--primary);
                 line-height: 1.2;
+                letter-spacing: -0.02em;
             }
 
             .header-brand-subtitle {
                 font-size: 12px;
-                font-weight: 600;
-                color: #7C3AED;
+                font-weight: 500;
+                color: var(--text-secondary);
+                line-height: 1.2;
+                margin-top: 2px;
             }
 
             .header-status {
-                display: flex;
+                display: inline-flex;
                 align-items: center;
-                gap: 8px;
+                gap: 7px;
                 background: #ECFDF5;
-                border: 1px solid #A7F3D0;
                 color: #065F46;
-                padding: 5px 14px;
-                border-radius: 20px;
+                border: 1px solid #A7F3D0;
+                padding: 6px 14px;
+                border-radius: var(--radius-badge);
                 font-size: 12.5px;
                 font-weight: 600;
             }
@@ -875,878 +1043,567 @@ def main():
                 width: 8px;
                 height: 8px;
                 border-radius: 50%;
-                background-color: #10B981;
-                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
-                animation: status-pulse 2s infinite;
-            }
-
-            @keyframes status-pulse {
-                0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-                70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
-                100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+                background: var(--success);
+                display: inline-block;
+                box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
             }
 
             .header-accent-line {
                 height: 3px;
-                background: linear-gradient(90deg, #4F46E5 0%, #7C3AED 45%, #06B6D4 100%);
-                border-radius: 2px;
-                margin-bottom: 22px;
+                background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+                border-radius: 3px;
+                margin-top: -12px;
+                margin-bottom: var(--space-lg);
             }
 
-            /* Sidebar Styling: #EEF2FF background, white cards, indigo headings */
-            [data-testid="stSidebar"] {
-                background-color: #EEF2FF !important;
-                border-right: 1px solid #DDE3F0 !important;
-                min-width: 320px !important;
-                max-width: 340px !important;
-                width: 330px !important;
+            /* ==================================================================
+               5. MAIN CONTENT CARDS & SECTIONS
+               ================================================================== */
+            /* Streamlit container cards in main area */
+            .main div[data-testid="stVerticalBlockBorderWrapper"] {
+                background: var(--bg-card) !important;
+                border: 1px solid var(--border) !important;
+                border-radius: var(--radius-card) !important;
+                box-shadow: var(--shadow-card) !important;
+                padding: var(--space-lg) !important;
+                margin-bottom: var(--space-lg) !important;
             }
 
-            [data-testid="stSidebarUserContent"] {
-                padding-top: 1.5rem !important;
-                padding-left: 1rem !important;
-                padding-right: 1rem !important;
-                padding-bottom: 2rem !important;
-            }
-
-            [data-testid="stSidebar"] div[data-testid="stVerticalBlockBorderWrapper"] {
-                background: #FFFFFF !important;
-                border: 1px solid #DDE3F0 !important;
-                border-radius: 12px !important;
-                box-shadow: 0 1px 3px rgba(79, 70, 229, 0.03) !important;
-                margin-bottom: 16px !important;
-            }
-
-            [data-testid="stSidebar"] div[data-testid="stVerticalBlockBorderWrapper"] > div {
-                padding: 16px !important;
-            }
-
-            .sidebar-section-title {
-                font-size: 13px !important;
-                font-weight: 700 !important;
-                text-transform: uppercase !important;
-                letter-spacing: 0.05em !important;
-                color: #4F46E5 !important;
-                margin-bottom: 12px !important;
-                display: flex !important;
-                align-items: center !important;
-                gap: 8px !important;
-            }
-
-            /* Remove 'Press Enter to submit form' text from inside the input field */
-            [data-testid="InputInstructions"],
-            .stInputInstructions,
-            div[data-testid="InputInstructions"],
-            [data-testid="stTextInput"] [data-testid="InputInstructions"] {
-                display: none !important;
-                visibility: hidden !important;
-                opacity: 0 !important;
-                height: 0 !important;
-                width: 0 !important;
-                overflow: hidden !important;
-                position: absolute !important;
-                pointer-events: none !important;
-            }
-
-            /* Clean, vertically centered styling for text inputs */
-            div[data-testid="stTextInput"] label {
-                font-size: 13.5px !important;
-                font-weight: 600 !important;
-                color: #172033 !important;
-                margin-bottom: 5px !important;
-            }
-
-            div[data-testid="stTextInput"] div[data-baseweb="base-input"] {
-                background-color: #FFFFFF !important;
-                border: 1px solid #DDE3F0 !important;
-                border-radius: 8px !important;
-                min-height: 46px !important;
-                height: 46px !important;
-                box-sizing: border-box !important;
-                display: flex !important;
-                align-items: center !important;
-                transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
-            }
-
-            div[data-testid="stTextInput"] div[data-baseweb="input"] {
-                background-color: #FFFFFF !important;
-                border: 1px solid #DDE3F0 !important;
-                border-radius: 8px !important;
-                min-height: 46px !important;
-                height: 46px !important;
-                box-sizing: border-box !important;
-                display: flex !important;
-                align-items: center !important;
-                transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
-            }
-
-            div[data-testid="stTextInput"] div[data-baseweb="input"]:focus-within,
-            div[data-testid="stTextInput"] div[data-baseweb="base-input"]:focus-within {
-                border-color: #4F46E5 !important;
-                box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15) !important;
-            }
-
-            div[data-testid="stTextInput"] input {
-                color: #172033 !important;
-                font-size: 14px !important;
-                font-family: inherit !important;
-                padding-left: 14px !important;
-                padding-right: 14px !important;
-                padding-top: 0 !important;
-                padding-bottom: 0 !important;
-                min-height: 46px !important;
-                height: 46px !important;
-                line-height: normal !important;
-                box-sizing: border-box !important;
-                vertical-align: middle !important;
-                background-color: transparent !important;
-            }
-
-            div[data-testid="stTextInput"] input::placeholder {
-                color: #94A3B8 !important;
-                font-size: 14px !important;
-                line-height: normal !important;
-                vertical-align: middle !important;
-                opacity: 1 !important;
-            }
-
-            /* Native Streamlit border container card styling in Main Area */
-            .block-container div[data-testid="stVerticalBlockBorderWrapper"] {
-                background: #FFFFFF !important;
-                border-radius: 14px !important;
-                border: 1px solid #DDE3F0 !important;
-                box-shadow: 0 1px 4px rgba(79, 70, 229, 0.03) !important;
-                margin-bottom: 24px !important;
-                width: 100% !important;
-                box-sizing: border-box !important;
-            }
-
-            .block-container div[data-testid="stVerticalBlockBorderWrapper"] > div {
-                padding: 24px 28px !important;
-            }
-
-            /* Headings */
-            h1, h2, h3 {
-                color: #172033 !important;
-                letter-spacing: -0.015em !important;
-            }
-            h4, h5 {
-                color: #4F46E5 !important;
-                letter-spacing: -0.01em !important;
-            }
-
-            /* Hero Section */
             .hero-wrapper {
-                background: #FFFFFF !important;
-                border: 1px solid #DDE3F0 !important;
-                border-radius: 14px !important;
-                padding: 32px 36px !important;
-                margin-bottom: 24px !important;
-                box-shadow: 0 1px 4px rgba(79, 70, 229, 0.03) !important;
-                width: 100% !important;
-                box-sizing: border-box !important;
+                margin-bottom: var(--space-lg);
+                padding: 2px 0;
             }
 
             .hero-heading {
-                font-size: 26px !important;
+                font-size: 30px !important;
                 font-weight: 700 !important;
-                color: #172033 !important;
-                margin-top: 0 !important;
-                margin-bottom: 8px !important;
+                color: var(--text-main) !important;
+                margin-bottom: var(--space-xs) !important;
                 line-height: 1.25 !important;
-                text-align: left !important;
             }
 
             .hero-subheading {
-                font-size: 14.5px !important;
-                color: #64748B !important;
+                font-size: 15px !important;
+                color: var(--text-secondary) !important;
                 line-height: 1.5 !important;
-                margin: 0 !important;
-                text-align: left !important;
+                margin-top: 0 !important;
             }
 
-            /* Upload Area Styling */
-            [data-testid="stFileUploader"] {
-                width: 100% !important;
-            }
-
-            [data-testid="stFileUploader"] section {
-                background-color: #F8FAFF !important;
-                border: 1.5px dashed #818CF8 !important;
-                border-radius: 12px !important;
-                padding: 22px 20px !important;
-                min-height: 110px !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                transition: all 0.2s ease !important;
-                width: 100% !important;
-                box-sizing: border-box !important;
-            }
-
-            [data-testid="stFileUploader"] section:hover {
-                border-color: #4F46E5 !important;
-                background-color: #EEF2FF !important;
-            }
-
-            /* Study Workspace Cards */
+            /* Workspace Card Header */
             .workspace-card-header {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                margin-bottom: 14px;
-                padding-bottom: 8px;
-                border-bottom: 1px solid #DDE3F0;
+                padding-bottom: var(--space-md);
+                border-bottom: 1px solid var(--border-soft);
+                margin-bottom: var(--space-md);
             }
 
             .workspace-card-title {
-                font-size: 15.5px;
+                font-size: 16px;
                 font-weight: 700;
-                color: #4F46E5;
+                color: var(--text-main);
+                margin: 0;
                 display: flex;
                 align-items: center;
                 gap: 8px;
-                margin: 0;
             }
 
-            /* Stepper Card for Multi-Step Loading */
+            /* ==================================================================
+               6. STUDY MATERIAL & IMAGE HANDLING
+               ================================================================== */
+            div[data-testid="stImage"] {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100% !important;
+                margin: 0 auto !important;
+            }
+
+            div[data-testid="stImage"] img {
+                border-radius: 12px !important;
+                border: 1px solid var(--border) !important;
+                max-width: 100% !important;
+                height: auto !important;
+                object-fit: contain !important;
+                box-shadow: 0 2px 8px rgba(23, 32, 51, 0.04) !important;
+            }
+
+            /* ==================================================================
+               7. ANALYSIS & SOLUTIONS VISUAL HIERARCHY
+               ================================================================== */
+            .analysis-content {
+                font-size: 14.5px;
+                line-height: 1.65;
+                color: var(--text-main);
+                word-break: break-word;
+            }
+
+            .analysis-content h2, .analysis-content h3 {
+                color: var(--text-main) !important;
+                font-weight: 700 !important;
+                margin-top: var(--space-lg) !important;
+                margin-bottom: var(--space-sm) !important;
+            }
+
+            .analysis-section-header {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-top: var(--space-md);
+                margin-bottom: var(--space-sm);
+                padding-bottom: 6px;
+            }
+
+            .analysis-section-icon {
+                font-size: 18px;
+                line-height: 1;
+            }
+
+            .analysis-section-title {
+                font-size: 16px;
+                font-weight: 700;
+                color: var(--text-main);
+            }
+
+            .analysis-section-pill {
+                font-size: 11px;
+                font-weight: 700;
+                padding: 2px 8px;
+                border-radius: var(--radius-badge);
+                letter-spacing: 0.02em;
+                margin-left: 4px;
+            }
+
+            .pill-indigo { background: #EEF2FF; color: var(--primary); border: 1px solid #C7D2FE; }
+            .pill-violet { background: #F5F3FF; color: var(--secondary); border: 1px solid #DDD6FE; }
+            .pill-cyan   { background: #ECFEFF; color: #0891B2; border: 1px solid #A5F3FC; }
+            .pill-coral  { background: #FFF7ED; color: #EA580C; border: 1px solid #FED7AA; }
+
+            .analysis-divider {
+                height: 1px;
+                background-color: var(--border-soft);
+                margin: var(--space-lg) 0;
+            }
+
+            /* Final Answer Highlight Box */
+            .final-answer-card {
+                margin-top: var(--space-lg);
+                margin-bottom: var(--space-xs);
+            }
+
+            .final-answer-header {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 6px;
+            }
+
+            .final-answer-icon {
+                font-size: 18px;
+            }
+
+            .final-answer-title {
+                font-size: 15px;
+                font-weight: 700;
+                color: #065F46;
+            }
+
+            .final-answer-box {
+                background: #ECFDF5;
+                border: 1px solid var(--success);
+                border-radius: 12px;
+                padding: 14px 16px;
+                color: #065F46;
+                font-size: 15px;
+                font-weight: 600;
+                line-height: 1.5;
+                margin-bottom: var(--space-lg);
+            }
+
+            /* Practice Card Box */
+            .practice-card-box {
+                background: #F8FAFC;
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                padding: 14px 16px;
+                margin-bottom: var(--space-md);
+                font-size: 14px;
+                line-height: 1.6;
+                color: var(--text-main);
+            }
+
+            .practice-q-badge {
+                display: inline-block;
+                font-size: 11px;
+                font-weight: 700;
+                background: #FFF7ED;
+                color: #EA580C;
+                border: 1px solid #FED7AA;
+                padding: 2px 8px;
+                border-radius: var(--radius-badge);
+                margin-bottom: 8px;
+            }
+
+            /* Stepper Card for Multi-Step Progress */
             .stepper-card {
-                background: #FFFFFF !important;
-                border: 1px solid #C7D2FE !important;
-                border-radius: 14px !important;
-                padding: 20px 24px !important;
-                margin-bottom: 20px !important;
-                box-shadow: 0 4px 16px rgba(79, 70, 229, 0.08) !important;
+                background: #F8FAFC;
+                border: 1px solid var(--border);
+                border-radius: var(--radius-control);
+                padding: 14px;
+                margin-bottom: 16px;
             }
 
             .stepper-header {
-                font-size: 16px !important;
-                font-weight: 700 !important;
-                color: #4F46E5 !important;
-                margin-bottom: 14px !important;
-                display: flex !important;
-                align-items: center !important;
-                gap: 8px !important;
+                font-size: 13.5px;
+                font-weight: 700;
+                color: var(--primary);
+                margin-bottom: 10px;
             }
 
             .stepper-row {
-                display: flex !important;
+                font-size: 13px;
+                margin-bottom: 6px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .step-done { color: var(--success); font-weight: 600; }
+            .step-active { color: var(--primary); font-weight: 700; }
+            .step-wait { color: var(--text-muted); }
+
+            /* Code Blocks */
+            .analysis-content pre, .stMainBlockContainer pre {
+                background-color: var(--bg-input) !important;
+                color: #F8FAFC !important;
+                border: 1px solid #374151 !important;
+                border-radius: var(--radius-control) !important;
+                padding: 12px 14px !important;
+                overflow-x: auto !important;
+                font-size: 13px !important;
+                line-height: 1.5 !important;
+            }
+
+            .analysis-content code:not(pre code) {
+                background-color: #EEF2FF !important;
+                color: var(--primary) !important;
+                padding: 2px 6px !important;
+                border-radius: 4px !important;
+                border: 1px solid #C7D2FE !important;
+                font-size: 13px !important;
+            }
+
+            /* ==================================================================
+               8. BUTTONS
+               ================================================================== */
+            div[data-testid="stButton"] button {
+                border-radius: var(--radius-control) !important;
+                font-weight: 600 !important;
+                font-size: 13.5px !important;
+                padding: 8px 16px !important;
+                min-height: 40px !important;
+                display: inline-flex !important;
                 align-items: center !important;
-                gap: 10px !important;
-                font-size: 14px !important;
-                margin-bottom: 8px !important;
-                color: #172033 !important;
-            }
-
-            .step-done {
-                color: #10B981 !important;
-                font-weight: 600 !important;
-            }
-
-            .step-active {
-                color: #F97316 !important;
-                font-weight: 700 !important;
-            }
-
-            .step-wait {
-                color: #64748B !important;
-            }
-
-            /* Primary Action Button: #4F46E5 Indigo, Hover: #7C3AED Violet */
-            button[kind="primary"] {
-                background: #4F46E5 !important;
-                background-color: #4F46E5 !important;
-                border: none !important;
-                color: #FFFFFF !important;
-                font-weight: 600 !important;
-                border-radius: 10px !important;
-                padding: 8px 18px !important;
-                box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25) !important;
+                justify-content: center !important;
                 transition: all 0.15s ease !important;
+                box-sizing: border-box !important;
+                text-align: center !important;
             }
 
-            button[kind="primary"]:hover {
-                background: #7C3AED !important;
-                background-color: #7C3AED !important;
-                box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35) !important;
-                transform: translateY(-1px) !important;
+            div[data-testid="stButton"] button[kind="primary"],
+            div[data-testid="stFormSubmitButton"] button {
+                background-color: var(--primary) !important;
+                color: #FFFFFF !important;
+                border: 1px solid var(--primary) !important;
             }
 
-            /* Dedicated Action Highlight: Coral #F97316 for Analyze Material */
+            div[data-testid="stButton"] button[kind="primary"]:hover,
+            div[data-testid="stFormSubmitButton"] button:hover {
+                background-color: var(--primary-hover) !important;
+                border-color: var(--primary-hover) !important;
+                box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25) !important;
+            }
+
+            div[data-testid="stButton"] button[kind="secondary"] {
+                background-color: var(--bg-card) !important;
+                color: var(--primary) !important;
+                border: 1px solid var(--border) !important;
+            }
+
+            div[data-testid="stButton"] button[kind="secondary"]:hover {
+                background-color: #F5F7FF !important;
+                border-color: var(--primary) !important;
+                color: var(--primary-hover) !important;
+            }
+
+            div[data-testid="stButton"] button:disabled,
+            div[data-testid="stFormSubmitButton"] button:disabled {
+                background-color: #E2E8F0 !important;
+                color: var(--text-muted) !important;
+                border-color: #CBD5E1 !important;
+                cursor: not-allowed !important;
+                box-shadow: none !important;
+            }
+
             .analyze-coral-btn button {
-                background: #F97316 !important;
-                background-color: #F97316 !important;
-                border: none !important;
+                background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%) !important;
                 color: #FFFFFF !important;
-                font-weight: 700 !important;
-                font-size: 15px !important;
-                border-radius: 10px !important;
-                padding: 10px 22px !important;
-                box-shadow: 0 3px 10px rgba(249, 115, 22, 0.35) !important;
-                transition: all 0.15s ease !important;
+                border: none !important;
+                box-shadow: 0 4px 14px rgba(79, 70, 229, 0.28) !important;
             }
 
             .analyze-coral-btn button:hover {
-                background: #EA580C !important;
-                background-color: #EA580C !important;
-                box-shadow: 0 6px 16px rgba(249, 115, 22, 0.45) !important;
+                box-shadow: 0 6px 18px rgba(79, 70, 229, 0.38) !important;
                 transform: translateY(-1px) !important;
             }
 
-            /* Secondary Button Polish */
-            button[kind="secondary"] {
-                border: 1px solid #DDE3F0 !important;
-                border-radius: 10px !important;
-                font-weight: 500 !important;
-                background: #FFFFFF !important;
-                color: #172033 !important;
-                transition: all 0.15s ease !important;
+            /* ==================================================================
+               9. CHAT COMPOSER & SUGGESTION CHIPS
+               ================================================================== */
+            .composer-meta-wrapper {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-top: var(--space-xl);
+                margin-bottom: var(--space-sm);
+                padding: 0 2px;
             }
 
-            button[kind="secondary"]:hover {
-                border-color: #C7D2FE !important;
-                background: #EEF2FF !important;
-                color: #4F46E5 !important;
+            .composer-title-group {
+                display: flex;
+                flex-direction: column;
             }
 
-            /* Chat Messages: User in light indigo, AI in white with violet left border */
-            [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"]) {
-                background-color: #EEF2FF !important;
-                border: 1px solid #C7D2FE !important;
-                border-radius: 14px !important;
-                color: #172033 !important;
-                padding: 12px 16px !important;
+            .composer-title {
+                font-size: 15px;
+                font-weight: 700;
+                color: var(--text-main);
+                display: flex;
+                align-items: center;
+                gap: 6px;
             }
 
-            [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"]) {
-                background-color: #FFFFFF !important;
-                border: 1px solid #DDE3F0 !important;
-                border-left: 4px solid #7C3AED !important;
-                border-radius: 14px !important;
-                color: #172033 !important;
-                box-shadow: 0 2px 6px rgba(124, 58, 237, 0.05) !important;
-                padding: 14px 18px !important;
+            .composer-subtitle {
+                font-size: 12px;
+                color: var(--text-secondary);
+                margin-top: 1px;
             }
 
-            /* ==============================================================
-               PREMIUM AI CHAT COMPOSER (NORMAL FLOW & FULL WIDTH)
-               ============================================================== */
-            /* Put stBottom / stBottomBlockContainer into normal document flow to eliminate overlap */
-            div[data-testid="stBottom"],
-            div[data-testid="stBottomBlockContainer"] {
-                position: relative !important;
-                bottom: auto !important;
-                left: auto !important;
-                right: auto !important;
-                width: 100% !important;
-                max-width: 1240px !important;
-                margin: 16px auto 36px auto !important;
-                padding: 0 32px !important;
-                background: transparent !important;
+            .composer-attached-pill {
+                font-size: 11.5px;
+                background: #EEF2FF;
+                color: var(--primary);
+                border: 1px solid #C7D2FE;
+                padding: 4px 10px;
+                border-radius: var(--radius-badge);
+                font-weight: 600;
+            }
+
+            .composer-empty-pill {
+                font-size: 11.5px;
+                background: #F1F5F9;
+                color: var(--text-secondary);
+                border: 1px solid #CBD5E1;
+                padding: 4px 10px;
+                border-radius: var(--radius-badge);
+                font-weight: 500;
+            }
+
+            .composer-chip-btn button {
+                background: var(--bg-card) !important;
+                border: 1px solid var(--border) !important;
+                color: var(--text-secondary) !important;
+                border-radius: var(--radius-badge) !important;
+                font-size: 12px !important;
+                padding: 4px 10px !important;
+                min-height: 32px !important;
+                height: 32px !important;
+                margin-bottom: var(--space-xs) !important;
                 box-shadow: none !important;
-                z-index: 10 !important;
-                box-sizing: border-box !important;
             }
 
-            div[data-testid="stBottomBlockContainer"] > div {
-                max-width: 100% !important;
-                width: 100% !important;
-                margin: 0 !important;
-                padding: 0 !important;
+            .composer-chip-btn button:hover {
+                border-color: var(--primary) !important;
+                color: var(--primary) !important;
+                background: #F5F7FF !important;
             }
 
-            /* Chat Composer Container */
+            /* Integrated Chat Input */
             div[data-testid="stChatInput"] {
+                background-color: var(--bg-card) !important;
+                border: 1px solid var(--border) !important;
+                border-radius: var(--radius-card) !important;
+                box-shadow: var(--shadow-card) !important;
+                padding: 6px 12px !important;
+                margin: 0 auto !important;
                 width: 100% !important;
-                max-width: 100% !important;
                 box-sizing: border-box !important;
                 display: flex !important;
                 align-items: center !important;
-                justify-content: space-between !important;
-                background: #FFFFFF !important;
-                border: 1px solid #DDE3F0 !important;
-                border-radius: 16px !important;
-                padding: 6px 10px 6px 18px !important;
-                box-shadow: 0 2px 12px rgba(79, 70, 229, 0.06), 0 1px 3px rgba(0, 0, 0, 0.02) !important;
-                transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
-                min-height: 58px !important;
             }
 
             div[data-testid="stChatInput"]:focus-within {
-                border-color: #4F46E5 !important;
-                box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15), 0 4px 16px rgba(79, 70, 229, 0.1) !important;
+                border-color: var(--primary) !important;
+                box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12) !important;
             }
 
-            /* Make inner wrappers stretch full width */
-            div[data-testid="stChatInput"] > div,
-            div[data-testid="stChatInput"] [data-baseweb="base-input"],
-            div[data-testid="stChatInput"] [data-baseweb="textarea"] {
-                flex: 1 1 auto !important;
-                width: 100% !important;
-                min-width: 0 !important;
-                background: transparent !important;
-                border: none !important;
-                padding: 0 !important;
-                margin: 0 !important;
-                box-shadow: none !important;
-            }
-
-            /* Full-width, comfortably sized textarea */
             div[data-testid="stChatInput"] textarea {
-                flex: 1 1 auto !important;
-                width: 100% !important;
-                min-width: 0 !important;
                 background: transparent !important;
+                color: var(--text-main) !important;
+                caret-color: var(--primary) !important;
+                font-size: 14.5px !important;
+                line-height: 1.5 !important;
                 border: none !important;
-                outline: none !important;
-                box-shadow: none !important;
-                font-family: inherit !important;
-                font-size: 15px !important;
-                line-height: 1.45 !important;
-                color: #172033 !important;
-                padding: 8px 4px !important;
-                min-height: 44px !important;
-                height: 44px !important;
-                max-height: 120px !important;
-                resize: none !important;
-                box-sizing: border-box !important;
-            }
-
-            div[data-testid="stChatInput"] textarea:focus {
-                outline: none !important;
                 box-shadow: none !important;
             }
 
             div[data-testid="stChatInput"] textarea::placeholder {
-                color: #64748B !important;
-                font-size: 15px !important;
+                color: var(--text-secondary) !important;
                 opacity: 1 !important;
             }
 
-            /* Ensure no helper / instructions text ever overlaps inside composer */
-            div[data-testid="stChatInput"] [data-testid="InputInstructions"] {
-                display: none !important;
-            }
-
-            /* Send Button */
             div[data-testid="stChatInput"] button {
-                flex: 0 0 46px !important;
-                width: 46px !important;
-                height: 46px !important;
-                min-width: 46px !important;
-                min-height: 46px !important;
-                border-radius: 12px !important;
-                background: #4F46E5 !important;
-                background-color: #4F46E5 !important;
+                background-color: var(--primary) !important;
+                color: #FFFFFF !important;
+                border-radius: var(--radius-control) !important;
+                width: 38px !important;
+                height: 38px !important;
+                min-width: 38px !important;
+                min-height: 38px !important;
                 border: none !important;
-                margin-left: 12px !important;
-                margin-right: 0 !important;
-                display: inline-flex !important;
+                display: flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-                padding: 0 !important;
-                box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25) !important;
-                cursor: pointer !important;
-                transition: all 0.15s ease !important;
+                transition: background-color 0.15s ease !important;
             }
 
             div[data-testid="stChatInput"] button:hover {
-                background: #7C3AED !important;
-                background-color: #7C3AED !important;
-                box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35) !important;
-                transform: translateY(-1px) !important;
+                background-color: var(--primary-hover) !important;
             }
 
             div[data-testid="stChatInput"] button:disabled {
-                background: #CBD5E1 !important;
                 background-color: #CBD5E1 !important;
-                box-shadow: none !important;
+                color: #94A3B8 !important;
                 cursor: not-allowed !important;
-                transform: none !important;
             }
 
-            /* Send Icon: White Arrow */
-            div[data-testid="stChatInput"] button svg {
-                fill: #FFFFFF !important;
-                color: #FFFFFF !important;
-                stroke: #FFFFFF !important;
-                width: 18px !important;
-                height: 18px !important;
-            }
-
-            /* Composer Header / Context Section */
-            .composer-meta-wrapper {
-                width: 100% !important;
-                max-width: 100% !important;
-                margin: 24px 0 10px 0 !important;
-                padding: 0 2px !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: space-between !important;
-                flex-wrap: wrap !important;
-                gap: 10px !important;
-                box-sizing: border-box !important;
-            }
-
-            .composer-title-group {
-                display: flex !important;
-                flex-direction: column !important;
-            }
-
-            .composer-title {
-                font-size: 15.5px !important;
-                font-weight: 700 !important;
-                color: #172033 !important;
-                letter-spacing: -0.01em !important;
-            }
-
-            .composer-subtitle {
-                font-size: 12.5px !important;
-                color: #64748B !important;
-                margin-top: 2px !important;
-            }
-
-            .composer-attached-pill {
-                display: inline-flex !important;
-                align-items: center !important;
-                gap: 6px !important;
-                background: #ECFEFF !important;
-                border: 1px solid #A5F3FC !important;
-                color: #0891B2 !important;
-                padding: 4px 12px !important;
-                border-radius: 16px !important;
-                font-size: 12px !important;
-                font-weight: 600 !important;
-            }
-
-            .composer-empty-pill {
-                display: inline-flex !important;
-                align-items: center !important;
-                gap: 6px !important;
-                background: #EEF2FF !important;
-                border: 1px solid #C7D2FE !important;
-                color: #4F46E5 !important;
-                padding: 4px 12px !important;
-                border-radius: 16px !important;
-                font-size: 12px !important;
-                font-weight: 500 !important;
-            }
-
-            /* Suggestion Chips Wrapper */
-            .composer-chips-row {
-                width: 100% !important;
-                max-width: 100% !important;
-                margin: 0 0 14px 0 !important;
-            }
-
-            .composer-chip-btn button {
-                background: #EEF2FF !important;
-                background-color: #EEF2FF !important;
-                border: 1px solid #C7D2FE !important;
-                color: #4F46E5 !important;
-                font-size: 12.5px !important;
-                font-weight: 600 !important;
-                border-radius: 20px !important;
-                padding: 6px 14px !important;
+            /* Clean up default fixed bottom block background */
+            div[data-testid="stBottomBlockContainer"] {
+                background: transparent !important;
+                border-top: none !important;
                 box-shadow: none !important;
-                transition: all 0.15s ease !important;
-                white-space: nowrap !important;
             }
 
-            .composer-chip-btn button:hover {
-                background: #E0E7FF !important;
-                background-color: #E0E7FF !important;
-                border-color: #818CF8 !important;
-                color: #3730A3 !important;
-                transform: translateY(-1px) !important;
-                box-shadow: 0 2px 6px rgba(79, 70, 229, 0.12) !important;
+            div[data-testid="stBottom"] {
+                background: transparent !important;
+                border-top: none !important;
             }
 
-            /* Follow-up Prompt Pills: Violet Accent */
-            button[key^="pill_"] {
-                background-color: #F5F3FF !important;
-                border: 1px solid #DDD6FE !important;
-                color: #7C3AED !important;
-                font-size: 13px !important;
-                font-weight: 600 !important;
-                border-radius: 20px !important;
-                transition: all 0.15s ease !important;
+            div[data-testid="stBottom"] > div {
+                background: transparent !important;
             }
 
-            button[key^="pill_"]:hover {
-                background-color: #EDE9FE !important;
-                border-color: #7C3AED !important;
-                color: #6D28D9 !important;
-                transform: translateY(-1px) !important;
-            }
-
-            /* ==============================================================
-               ANALYSIS RESULT SECTION - MODERN EDUCATIONAL HIERARCHY
-               ============================================================== */
-            .analysis-section-header {
-                display: flex !important;
-                align-items: center !important;
-                gap: 8px !important;
-                margin-top: 16px !important;
-                margin-bottom: 8px !important;
-            }
-
-            .analysis-section-icon {
-                font-size: 18px !important;
-                line-height: 1 !important;
-            }
-
-            .analysis-section-title {
-                font-size: 15.5px !important;
-                font-weight: 700 !important;
-                color: #172033 !important;
-                letter-spacing: -0.01em !important;
-            }
-
-            .analysis-section-pill {
-                font-size: 11px !important;
-                font-weight: 700 !important;
-                padding: 2px 8px !important;
-                border-radius: 6px !important;
-                letter-spacing: 0.04em !important;
-                text-transform: uppercase !important;
-            }
-
-            .pill-indigo {
-                background: #EEF2FF !important;
-                color: #4F46E5 !important;
-                border: 1px solid #C7D2FE !important;
-            }
-
-            .pill-violet {
-                background: #F5F3FF !important;
-                color: #7C3AED !important;
-                border: 1px solid #DDD6FE !important;
-            }
-
-            .pill-cyan {
-                background: #ECFEFF !important;
-                color: #0891B2 !important;
-                border: 1px solid #A5F3FC !important;
-            }
-
-            .pill-coral {
-                background: #FFF7ED !important;
-                color: #EA580C !important;
-                border: 1px solid #FED7AA !important;
-            }
-
-            .analysis-divider {
-                border-top: 1px solid #EEF2FF !important;
-                margin: 16px 0 !important;
-            }
-
-            /* Success Card for Final Answer */
-            .final-answer-card {
-                background: #ECFDF5 !important;
-                border: 1.5px solid #10B981 !important;
-                border-radius: 12px !important;
+            /* Chat Message Bubbles */
+            div[data-testid="stChatMessage"] {
+                background-color: var(--bg-card) !important;
+                border: 1px solid var(--border) !important;
+                border-radius: var(--radius-card) !important;
                 padding: 14px 18px !important;
-                margin: 16px 0 10px 0 !important;
-                box-shadow: 0 2px 8px rgba(16, 185, 129, 0.08) !important;
+                margin-bottom: var(--space-md) !important;
+                box-shadow: 0 1px 4px rgba(23, 32, 51, 0.03) !important;
             }
 
-            .final-answer-header {
-                display: flex !important;
-                align-items: center !important;
-                gap: 8px !important;
-                margin-bottom: 6px !important;
-            }
-
-            .final-answer-icon {
-                font-size: 17px !important;
-            }
-
-            .final-answer-title {
-                font-size: 13.5px !important;
-                font-weight: 700 !important;
-                color: #065F46 !important;
-                text-transform: uppercase !important;
-                letter-spacing: 0.04em !important;
-            }
-
-            .final-answer-box {
-                background: #ECFDF5 !important;
-                border-left: 3px solid #10B981 !important;
-                border-radius: 0 8px 8px 0 !important;
-                padding: 10px 16px !important;
-                margin-bottom: 14px !important;
-            }
-
-            /* Practice Questions in Individual Cards */
-            .practice-card-box {
-                background: #FFFFFF !important;
-                border: 1px solid #DDE3F0 !important;
-                border-left: 4px solid #F97316 !important;
-                border-radius: 10px !important;
-                padding: 12px 16px !important;
-                margin-bottom: 10px !important;
-                box-shadow: 0 1px 3px rgba(249, 115, 22, 0.04) !important;
-                transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
-            }
-
-            .practice-card-box:hover {
-                border-color: #F97316 !important;
-                box-shadow: 0 3px 8px rgba(249, 115, 22, 0.1) !important;
-            }
-
-            .practice-q-badge {
-                display: inline-block !important;
-                background: #FFF7ED !important;
-                border: 1px solid #FED7AA !important;
-                color: #EA580C !important;
-                font-size: 11px !important;
-                font-weight: 700 !important;
-                padding: 2px 8px !important;
-                border-radius: 6px !important;
-                margin-bottom: 6px !important;
-                letter-spacing: 0.03em !important;
-            }
-
-            /* Enhanced Typography for Explanations, Math & Code */
-            .analysis-content {
-                line-height: 1.68 !important;
-                color: #172033 !important;
-                font-size: 14.5px !important;
-            }
-
-            .analysis-content p {
-                color: #172033 !important;
-                margin-bottom: 10px !important;
-            }
-
-            .analysis-content ul, .analysis-content ol {
-                padding-left: 20px !important;
-                margin-bottom: 12px !important;
-            }
-
-            .analysis-content li {
-                margin-bottom: 6px !important;
-                line-height: 1.6 !important;
-                color: #172033 !important;
-            }
-
-            .analysis-content strong {
-                color: #172033 !important;
-                font-weight: 700 !important;
-            }
-
-            /* LaTeX KaTeX displays */
-            .katex-display {
-                background: #F8FAFF !important;
+            /* ==================================================================
+               10. ALERTS, EXPANDERS & MISC
+               ================================================================== */
+            div[data-testid="stAlert"] {
+                border-radius: var(--radius-control) !important;
                 padding: 10px 14px !important;
-                border-radius: 8px !important;
-                border: 1px solid #EEF2FF !important;
-                margin: 12px 0 !important;
-                overflow-x: auto !important;
+                font-size: 13.5px !important;
+                box-shadow: none !important;
             }
 
-            .katex {
-                font-size: 1.05em !important;
-                color: #172033 !important;
+            div[data-testid="stNotification"] {
+                border-radius: var(--radius-control) !important;
             }
 
-            /* Code Blocks */
-            .analysis-content pre {
-                background: #F8FAFF !important;
-                border: 1px solid #DDE3F0 !important;
-                border-left: 4px solid #06B6D4 !important;
-                border-radius: 8px !important;
-                padding: 12px 16px !important;
-                margin: 12px 0 !important;
-                overflow-x: auto !important;
+            div[data-testid="stExpander"] {
+                border: 1px solid var(--border) !important;
+                border-radius: var(--radius-card) !important;
+                background: var(--bg-card) !important;
+                box-shadow: var(--shadow-card) !important;
             }
 
-            .analysis-content code:not(pre code) {
-                background: #EEF2FF !important;
-                color: #4F46E5 !important;
-                padding: 2px 6px !important;
-                border-radius: 6px !important;
-                font-size: 0.9em !important;
-                border: 1px solid #C7D2FE !important;
+            /* File Uploader in Main Area */
+            .main [data-testid="stFileUploader"] section {
+                background-color: #FAFAFF !important;
+                border: 1px dashed var(--border) !important;
+                border-radius: var(--radius-control) !important;
+                padding: 16px !important;
             }
 
-            .analysis-content blockquote {
-                border-left: 4px solid #06B6D4 !important;
-                background: #ECFEFF !important;
-                padding: 10px 16px !important;
-                border-radius: 0 8px 8px 0 !important;
-                color: #172033 !important;
-                margin: 12px 0 !important;
+            .main [data-testid="stFileUploader"] section:hover {
+                border-color: var(--primary) !important;
             }
 
-            /* ==============================================================
-               RESPONSIVE ADJUSTMENTS (TABLET & MOBILE)
-               ============================================================== */
-            @media (min-width: 769px) and (max-width: 1024px) {
-                .block-container {
-                    padding-left: 20px !important;
-                    padding-right: 20px !important;
-                }
-                div[data-testid="stBottom"],
-                div[data-testid="stBottomBlockContainer"] {
-                    padding: 0 20px !important;
-                }
-                [data-testid="stSidebar"] {
-                    min-width: 290px !important;
-                    max-width: 300px !important;
-                    width: 295px !important;
+            /* ==================================================================
+               11. RESPONSIVE DESIGN (Desktop, Tablet, Mobile)
+               ================================================================== */
+            @media (max-width: 1024px) {
+                .stMainBlockContainer, .main .block-container {
+                    padding-left: 1.25rem !important;
+                    padding-right: 1.25rem !important;
                 }
             }
 
             @media (max-width: 768px) {
-                [data-testid="stSidebar"] {
-                    min-width: 100vw !important;
-                    max-width: 100vw !important;
-                    width: 100vw !important;
-                }
-                .block-container {
-                    padding-left: 16px !important;
-                    padding-right: 16px !important;
+                .stMainBlockContainer, .main .block-container {
+                    padding-left: 1rem !important;
+                    padding-right: 1rem !important;
                     padding-top: 1rem !important;
                 }
-                div[data-testid="stBottom"],
-                div[data-testid="stBottomBlockContainer"] {
-                    padding: 0 16px !important;
-                    margin: 16px auto 24px auto !important;
-                }
+
                 .snapstudy-header {
                     flex-direction: column !important;
                     align-items: flex-start !important;
                     gap: 12px !important;
-                    padding: 16px !important;
+                    padding: 12px 14px !important;
                 }
-                .hero-wrapper {
-                    padding: 20px 18px !important;
+
+                .header-status {
+                    align-self: flex-start !important;
                 }
-                .hero-heading {
-                    font-size: 20px !important;
-                }
-                .block-container div[data-testid="stVerticalBlockBorderWrapper"] > div {
-                    padding: 18px 16px !important;
-                }
-                div[data-testid="stChatInput"] {
-                    border-radius: 14px !important;
-                    padding: 4px 6px 4px 12px !important;
-                    min-height: 52px !important;
-                }
-                div[data-testid="stChatInput"] button {
-                    flex: 0 0 40px !important;
-                    width: 40px !important;
-                    height: 40px !important;
-                    min-width: 40px !important;
-                    min-height: 40px !important;
-                    margin-left: 8px !important;
-                }
+
                 .composer-meta-wrapper {
                     flex-direction: column !important;
                     align-items: flex-start !important;
                     gap: 6px !important;
+                }
+
+                .workspace-card-header {
+                    flex-direction: column !important;
+                    align-items: flex-start !important;
+                    gap: 6px !important;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .stMainBlockContainer, .main .block-container {
+                    padding-left: 0.75rem !important;
+                    padding-right: 0.75rem !important;
+                }
+
+                .header-brand-title {
+                    font-size: 16px !important;
+                }
+
+                .hero-heading {
+                    font-size: 24px !important;
+                }
+
+                div[data-testid="stChatInput"] {
+                    padding: 4px 8px !important;
                 }
             }
         </style>
