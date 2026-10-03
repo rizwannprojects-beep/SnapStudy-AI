@@ -770,7 +770,7 @@ def main():
                 --bg-sidebar: #EEF1FF;
                 --bg-input: #FFFFFF;
                 --input-text: #172033;
-                --input-placeholder: #94A3B8;
+                --input-placeholder: #64748B;
 
                 --border: #D9DDF0;
                 --border-input: #CBD5E1;
@@ -780,12 +780,14 @@ def main():
                 --radius-card: 16px;
                 --radius-control: 10px;
                 --radius-badge: 20px;
+                --radius-composer: 22px;
                 --radius-sm: 6px;
 
                 --shadow-card: 0 4px 16px rgba(23, 32, 51, 0.04);
                 --shadow-elevated: 0 8px 24px rgba(23, 32, 51, 0.08);
 
-                --content-max-width: 1280px;
+                --content-max-width: 1400px;
+                --chat-max-width: 1100px;
             }
 
             /* ==================================================================
@@ -852,27 +854,179 @@ def main():
             h1, h2, h3, h4, h5, h6 {
                 font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
                 color: var(--text-main) !important;
-                font-weight: 700 !important;
                 letter-spacing: -0.02em !important;
                 margin-top: 0 !important;
             }
 
-            h1 { font-size: 34px !important; line-height: 1.25 !important; }
-            h2 { font-size: 24px !important; line-height: 1.3 !important; }
-            h3 { font-size: 20px !important; line-height: 1.35 !important; }
-            h4 { font-size: 16px !important; line-height: 1.4 !important; }
+            h1 { font-size: 32px !important; font-weight: 700 !important; line-height: 1.25 !important; }
+            h2 { font-size: 24px !important; font-weight: 700 !important; line-height: 1.3 !important; }
+            h3 { font-size: 20px !important; font-weight: 600 !important; line-height: 1.35 !important; }
+            h4 { font-size: 18px !important; font-weight: 600 !important; line-height: 1.4 !important; }
 
             p {
+                font-size: 15px !important;
                 line-height: 1.6 !important;
                 color: var(--text-secondary);
                 margin-bottom: 8px !important;
             }
 
             /* ==================================================================
-               3. SIDEBAR ALIGNMENT & DESIGN (320px - 340px)
+               3. STREAMLIT INPUT OVERRIDES (GLOBAL)
+               ================================================================== */
+            input,
+            textarea {
+                color: var(--text-main) !important;
+                background-color: #FFFFFF !important;
+                font-family: inherit !important;
+            }
+
+            input::placeholder,
+            textarea::placeholder {
+                color: var(--input-placeholder) !important;
+                opacity: 1 !important;
+            }
+
+            div[data-baseweb="input"],
+            div[data-baseweb="base-input"] {
+                background-color: #FFFFFF !important;
+            }
+
+            /* ==================================================================
+               4. GLOBAL BUTTON CONTRAST & VISIBILITY (FIX FOR ALL BUTTONS)
+               ================================================================== */
+            /* Crucial: enforce child text/paragraphs to inherit button color */
+            button,
+            button *,
+            button p,
+            button span:not([data-testid="stIconMaterial"]),
+            button div,
+            div[data-testid="stButton"] button,
+            div[data-testid="stButton"] button *,
+            div[data-testid="stButton"] button p,
+            div[data-testid="stButton"] button span:not([data-testid="stIconMaterial"]),
+            div[data-testid="stFormSubmitButton"] button,
+            div[data-testid="stFormSubmitButton"] button *,
+            div[data-testid="stFormSubmitButton"] button p,
+            button[data-testid^="stBaseButton"] * {
+                color: inherit !important;
+                margin: 0 !important;
+            }
+
+            /* Base button styling */
+            div[data-testid="stButton"] button,
+            div[data-testid="stFormSubmitButton"] button,
+            button[data-testid^="stBaseButton"] {
+                border-radius: var(--radius-control) !important;
+                font-weight: 600 !important;
+                font-size: 14px !important;
+                padding: 10px 18px !important;
+                min-height: 44px !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                transition: all 0.15s ease !important;
+                box-sizing: border-box !important;
+                text-align: center !important;
+                cursor: pointer !important;
+            }
+
+            /* Primary purple buttons */
+            div[data-testid="stButton"] button[kind="primary"],
+            div[data-testid="stButton"] button[data-testid*="primary"],
+            div[data-testid="stFormSubmitButton"] button,
+            button[kind="primaryFormSubmit"],
+            button[data-testid="stBaseButton-primary"],
+            button[data-testid="stBaseButton-primaryFormSubmit"] {
+                background-color: var(--primary) !important;
+                color: #FFFFFF !important;
+                border: 1px solid var(--primary) !important;
+                box-shadow: 0 1px 3px rgba(79, 70, 229, 0.2) !important;
+            }
+
+            div[data-testid="stButton"] button[kind="primary"]:hover,
+            div[data-testid="stButton"] button[data-testid*="primary"]:hover,
+            div[data-testid="stFormSubmitButton"] button:hover,
+            button[kind="primaryFormSubmit"]:hover,
+            button[data-testid="stBaseButton-primary"]:hover,
+            button[data-testid="stBaseButton-primaryFormSubmit"]:hover {
+                background-color: var(--primary-hover) !important;
+                border-color: var(--primary-hover) !important;
+                color: #FFFFFF !important;
+                box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3) !important;
+            }
+
+            /* Secondary buttons */
+            div[data-testid="stButton"] button[kind="secondary"],
+            div[data-testid="stButton"] button[data-testid*="secondary"],
+            button[data-testid="stBaseButton-secondary"],
+            button[data-testid="stBaseButton-secondaryFormSubmit"],
+            div[data-testid="stButton"] button:not([kind="primary"]):not(.analyze-coral-btn button) {
+                background-color: #FFFFFF !important;
+                color: var(--text-main) !important;
+                border: 1px solid var(--border-input) !important;
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+            }
+
+            div[data-testid="stButton"] button[kind="secondary"]:hover,
+            div[data-testid="stButton"] button[data-testid*="secondary"]:hover,
+            button[data-testid="stBaseButton-secondary"]:hover,
+            button[data-testid="stBaseButton-secondaryFormSubmit"]:hover,
+            div[data-testid="stButton"] button:not([kind="primary"]):hover {
+                background-color: #F1F5F9 !important;
+                color: var(--text-main) !important;
+                border-color: var(--text-muted) !important;
+            }
+
+            /* Disabled buttons */
+            button:disabled,
+            button:disabled *,
+            div[data-testid="stButton"] button:disabled,
+            div[data-testid="stButton"] button:disabled *,
+            div[data-testid="stFormSubmitButton"] button:disabled,
+            div[data-testid="stFormSubmitButton"] button:disabled *,
+            button[data-testid^="stBaseButton"]:disabled,
+            button[data-testid^="stBaseButton"]:disabled * {
+                background-color: #E2E8F0 !important;
+                color: var(--text-muted) !important;
+                border-color: var(--border-input) !important;
+                cursor: not-allowed !important;
+                box-shadow: none !important;
+                opacity: 0.7 !important;
+            }
+
+            /* 5. FIX THE "ANALYZE MATERIAL" BUTTON */
+            .analyze-coral-btn button,
+            .analyze-coral-btn button * {
+                background-color: #4F46E5 !important;
+                color: #FFFFFF !important;
+                font-weight: 600 !important;
+                font-size: 15px !important;
+                min-height: 52px !important;
+                height: 52px !important;
+                border-radius: 14px !important;
+                border: 1px solid #4F46E5 !important;
+                box-shadow: 0 4px 14px rgba(79, 70, 229, 0.28) !important;
+                width: 100% !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                gap: 8px !important;
+            }
+
+            .analyze-coral-btn button:hover,
+            .analyze-coral-btn button:hover * {
+                background-color: #4338CA !important;
+                border-color: #4338CA !important;
+                color: #FFFFFF !important;
+                box-shadow: 0 6px 18px rgba(79, 70, 229, 0.38) !important;
+                transform: translateY(-1px) !important;
+            }
+
+            /* ==================================================================
+               5. SIDEBAR ALIGNMENT & DESIGN (320px - 340px)
                ================================================================== */
             section[data-testid="stSidebar"] {
-                width: 320px !important;
+                width: 330px !important;
                 min-width: 320px !important;
                 max-width: 340px !important;
                 background-color: var(--bg-sidebar) !important;
@@ -906,7 +1060,7 @@ def main():
                 box-shadow: 0 2px 8px rgba(23, 32, 51, 0.03) !important;
             }
 
-            /* Student Profile Inputs */
+            /* 6. FIX PROFILE FORM INPUTS */
             section[data-testid="stSidebar"] div[data-testid="stTextInput"] {
                 width: 100% !important;
                 margin-bottom: 12px !important;
@@ -916,8 +1070,8 @@ def main():
                 background-color: #FFFFFF !important;
                 border: 1px solid var(--border-input) !important;
                 border-radius: var(--radius-control) !important;
-                height: 44px !important;
-                min-height: 44px !important;
+                height: 48px !important;
+                min-height: 48px !important;
                 transition: all 0.15s ease !important;
                 box-sizing: border-box !important;
                 padding: 0 !important;
@@ -925,7 +1079,7 @@ def main():
 
             section[data-testid="stSidebar"] div[data-testid="stTextInput"] div[data-baseweb="base-input"]:focus-within {
                 border: 2px solid var(--primary) !important;
-                box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12) !important;
+                box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15) !important;
             }
 
             section[data-testid="stSidebar"] div[data-testid="stTextInput"] input {
@@ -967,11 +1121,12 @@ def main():
                 padding: 0 !important;
             }
 
-            /* Save Profile Button */
-            section[data-testid="stSidebar"] div[data-testid="stFormSubmitButton"] button {
+            /* Save Profile Button (Full Width, Purple, White Text) */
+            section[data-testid="stSidebar"] div[data-testid="stFormSubmitButton"] button,
+            section[data-testid="stSidebar"] div[data-testid="stFormSubmitButton"] button * {
                 width: 100% !important;
-                height: 44px !important;
-                min-height: 44px !important;
+                height: 48px !important;
+                min-height: 48px !important;
                 background-color: var(--primary) !important;
                 color: #FFFFFF !important;
                 border: 1px solid var(--primary) !important;
@@ -981,40 +1136,17 @@ def main():
                 display: flex !important;
                 align-items: center !important;
                 justify-content: center !important;
+                text-align: center !important;
                 transition: all 0.15s ease !important;
-                box-shadow: 0 1px 3px rgba(79, 70, 229, 0.2) !important;
+                box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25) !important;
             }
 
-            section[data-testid="stSidebar"] div[data-testid="stFormSubmitButton"] button:hover {
+            section[data-testid="stSidebar"] div[data-testid="stFormSubmitButton"] button:hover,
+            section[data-testid="stSidebar"] div[data-testid="stFormSubmitButton"] button:hover * {
                 background-color: var(--primary-hover) !important;
                 border-color: var(--primary-hover) !important;
-                box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3) !important;
-            }
-
-            /* Sidebar File Uploader */
-            section[data-testid="stSidebar"] [data-testid="stFileUploader"] {
-                width: 100% !important;
-            }
-
-            section[data-testid="stSidebar"] [data-testid="stFileUploaderDropzone"],
-            section[data-testid="stSidebar"] section[data-testid="stFileUploadDropzone"],
-            section[data-testid="stSidebar"] [data-testid="stFileUploader"] section {
-                background-color: #FAFAFF !important;
-                border: 2px dashed var(--border) !important;
-                border-radius: var(--radius-control) !important;
-                padding: 16px 10px !important;
-                text-align: center !important;
-            }
-
-            section[data-testid="stSidebar"] [data-testid="stFileUploader"] button {
-                background-color: #FFFFFF !important;
-                color: var(--primary) !important;
-                border: 1px solid var(--border-input) !important;
-                border-radius: 8px !important;
-                font-size: 13px !important;
-                font-weight: 600 !important;
-                padding: 6px 14px !important;
-                margin: 0 auto !important;
+                color: #FFFFFF !important;
+                box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35) !important;
             }
 
             /* Graceful truncation for long filenames */
@@ -1026,7 +1158,7 @@ def main():
             }
 
             /* ==================================================================
-               4. TOP HEADER CARD
+               6. TOP HEADER CARD
                ================================================================== */
             .snapstudy-header {
                 display: flex;
@@ -1110,7 +1242,7 @@ def main():
             }
 
             /* ==================================================================
-               5. WELCOME & CARDS SYSTEM
+               7. WELCOME & CARDS SYSTEM
                ================================================================== */
             .hero-wrapper {
                 background: var(--bg-card);
@@ -1124,7 +1256,7 @@ def main():
             }
 
             .hero-heading {
-                font-size: 34px !important;
+                font-size: 32px !important;
                 font-weight: 700 !important;
                 color: var(--text-main) !important;
                 margin: 0 0 8px 0 !important;
@@ -1146,6 +1278,7 @@ def main():
                 box-shadow: var(--shadow-card) !important;
                 padding: 24px !important;
                 margin-bottom: 24px !important;
+                box-sizing: border-box !important;
             }
 
             .workspace-card-header {
@@ -1168,7 +1301,7 @@ def main():
             }
 
             /* ==================================================================
-               6. STUDY MATERIAL & FILE UPLOADER FIXES (NO BLACK BOX)
+               8. STUDY MATERIAL & FILE UPLOADER (7. FIX UPLOAD SECTION)
                ================================================================== */
             div[data-testid="stImage"] {
                 display: flex !important;
@@ -1187,18 +1320,19 @@ def main():
                 box-shadow: 0 2px 8px rgba(23, 32, 51, 0.04) !important;
             }
 
-            /* Dropzone Light Styling */
+            /* Dropzone Light Styling with dashed border & centered layout */
             [data-testid="stFileUploaderDropzone"],
             [data-testid="stFileUploadDropzone"],
             section[data-testid="stFileUploadDropzone"],
             div[data-testid="stFileUploader"] section {
                 background-color: #FAFAFF !important;
-                border: 2px dashed var(--border) !important;
-                border-radius: 12px !important;
+                border: 2px dashed var(--border-input) !important;
+                border-radius: 14px !important;
                 padding: 24px 16px !important;
                 text-align: center !important;
                 color: var(--text-secondary) !important;
                 transition: all 0.2s ease !important;
+                box-sizing: border-box !important;
             }
 
             [data-testid="stFileUploaderDropzone"]:hover,
@@ -1209,22 +1343,30 @@ def main():
                 background-color: #F5F7FF !important;
             }
 
-            div[data-testid="stFileUploader"] section button {
+            /* Single, clean Upload button inside dropzone */
+            div[data-testid="stFileUploader"] section button,
+            div[data-testid="stFileUploader"] section button * {
                 background-color: #FFFFFF !important;
-                color: var(--primary) !important;
+                color: var(--text-main) !important;
                 border: 1px solid var(--border-input) !important;
                 border-radius: 8px !important;
                 font-size: 13.5px !important;
                 font-weight: 600 !important;
-                padding: 7px 18px !important;
+                padding: 8px 18px !important;
                 margin: 0 auto !important;
                 box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
             }
 
-            div[data-testid="stFileUploader"] section button:hover {
-                background-color: #EEF2FF !important;
-                border-color: var(--primary) !important;
-                color: var(--primary-hover) !important;
+            div[data-testid="stFileUploader"] section button:hover,
+            div[data-testid="stFileUploader"] section button:hover * {
+                background-color: #F1F5F9 !important;
+                border-color: var(--text-muted) !important;
+                color: var(--text-main) !important;
+            }
+
+            div[data-testid="stFileUploader"] section button span[data-testid="stIconMaterial"] {
+                color: var(--primary) !important;
+                font-size: 18px !important;
             }
 
             div[data-testid="stFileUploader"] section div,
@@ -1235,10 +1377,10 @@ def main():
             }
 
             /* ==================================================================
-               7. FEATURE CARDS RESPONSIVE GRID
+               9. FEATURE CARDS RESPONSIVE GRID
                ================================================================== */
             .feature-section-title {
-                font-size: 19px;
+                font-size: 20px;
                 font-weight: 700;
                 color: var(--text-main);
                 margin-top: 24px;
@@ -1341,7 +1483,7 @@ def main():
             .tag-coral  { background: #FFEDD5; color: #EA580C; }
 
             /* ==================================================================
-               8. ANALYSIS SECTION (WITH SCROLL BOX)
+               10. ANALYSIS SECTION (WITH SCROLL BOX)
                ================================================================== */
             .analysis-scroll-box {
                 max-height: 640px;
@@ -1520,102 +1662,39 @@ def main():
             }
 
             /* ==================================================================
-               9. BUTTONS
+               11. CHAT CONTAINER & MODERN CHATGPT-STYLE COMPOSER (2 & 3)
                ================================================================== */
-            div[data-testid="stButton"] button,
-            div[data-testid="stFormSubmitButton"] button {
-                border-radius: var(--radius-control) !important;
-                font-weight: 600 !important;
-                font-size: 13.5px !important;
-                padding: 10px 16px !important;
-                min-height: 42px !important;
-                display: inline-flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                transition: all 0.15s ease !important;
+            /* 3. CHAT SECTION CONTAINER */
+            .chat-section {
+                width: 100% !important;
+                max-width: var(--chat-max-width) !important;
+                margin: 0 auto !important;
                 box-sizing: border-box !important;
-                text-align: center !important;
+                padding: 0 !important;
             }
 
-            div[data-testid="stButton"] button[kind="primary"],
-            div[data-testid="stFormSubmitButton"] button {
-                background-color: var(--primary) !important;
-                color: #FFFFFF !important;
-                border: 1px solid var(--primary) !important;
+            .chat-header {
+                width: 100% !important;
+                margin-bottom: 12px !important;
             }
 
-            div[data-testid="stButton"] button[kind="primary"]:hover,
-            div[data-testid="stFormSubmitButton"] button:hover {
-                background-color: var(--primary-hover) !important;
-                border-color: var(--primary-hover) !important;
-                box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25) !important;
-            }
-
-            div[data-testid="stButton"] button[kind="secondary"] {
+            /* Distinct Chat Message Cards */
+            div[data-testid="stChatMessage"] {
                 background-color: #FFFFFF !important;
-                color: var(--primary) !important;
-                border: 1px solid #C7D2FE !important;
+                border: 1px solid var(--border) !important;
+                border-radius: 16px !important;
+                padding: 16px 20px !important;
+                margin-bottom: 16px !important;
+                box-shadow: 0 2px 8px rgba(23, 32, 51, 0.03) !important;
+                max-width: var(--chat-max-width) !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
             }
 
-            div[data-testid="stButton"] button[kind="secondary"]:hover {
+            div[data-testid="stChatMessage"][data-testid*="user"],
+            div[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]) {
                 background-color: #EEF2FF !important;
-                border-color: var(--primary) !important;
-                color: var(--primary-hover) !important;
-            }
-
-            div[data-testid="stButton"] button:disabled,
-            div[data-testid="stFormSubmitButton"] button:disabled {
-                background-color: #E2E8F0 !important;
-                color: var(--text-muted) !important;
-                border-color: #CBD5E1 !important;
-                cursor: not-allowed !important;
-                box-shadow: none !important;
-            }
-
-            .analyze-coral-btn button {
-                background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%) !important;
-                color: #FFFFFF !important;
-                border: none !important;
-                box-shadow: 0 4px 14px rgba(79, 70, 229, 0.28) !important;
-            }
-
-            .analyze-coral-btn button:hover {
-                box-shadow: 0 6px 18px rgba(79, 70, 229, 0.38) !important;
-                transform: translateY(-1px) !important;
-            }
-
-            /* ==================================================================
-               10. CHAT COMPOSER (CHATGPT-STYLE) & CHAT HISTORY
-               ================================================================== */
-            /* Normal flow at bottom of content - NO black box */
-            div[data-testid="stBottom"] {
-                position: relative !important;
-                bottom: auto !important;
-                left: auto !important;
-                right: auto !important;
-                width: 100% !important;
-                max-width: var(--content-max-width) !important;
-                margin: 24px auto 32px auto !important;
-                padding: 0 !important;
-                background: transparent !important;
-                border-top: none !important;
-                box-shadow: none !important;
-                z-index: 10 !important;
-            }
-
-            div[data-testid="stBottom"] > div {
-                background: transparent !important;
-                padding: 0 !important;
-            }
-
-            div[data-testid="stBottomBlockContainer"] {
-                background: transparent !important;
-                border: none !important;
-                box-shadow: none !important;
-                max-width: 100% !important;
-                width: 100% !important;
-                padding: 0 !important;
-                margin: 0 !important;
+                border-color: #C7D2FE !important;
             }
 
             .composer-meta-wrapper {
@@ -1624,8 +1703,11 @@ def main():
                 justify-content: space-between;
                 margin-top: 24px;
                 margin-bottom: 12px;
-                padding: 0 2px;
+                padding: 0 4px;
                 width: 100%;
+                max-width: var(--chat-max-width);
+                margin-left: auto;
+                margin-right: auto;
                 box-sizing: border-box;
             }
 
@@ -1670,10 +1752,17 @@ def main():
             }
 
             /* Suggestion Chips */
+            .composer-chips-container {
+                max-width: var(--chat-max-width) !important;
+                margin: 0 auto 12px auto !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
             .composer-chip-btn button {
                 background: #FFFFFF !important;
                 border: 1px solid var(--border) !important;
-                color: var(--text-secondary) !important;
+                color: var(--text-main) !important;
                 border-radius: 20px !important;
                 font-size: 13px !important;
                 font-weight: 500 !important;
@@ -1689,50 +1778,130 @@ def main():
             .composer-chip-btn button:hover {
                 border-color: var(--primary) !important;
                 color: var(--primary) !important;
-                background: #F5F7FF !important;
+                background: #EEF2FF !important;
                 box-shadow: 0 2px 6px rgba(79, 70, 229, 0.1) !important;
             }
 
-            /* Modern ChatGPT-Style Chat Composer Card */
-            div[data-testid="stChatInput"] {
-                background-color: #FFFFFF !important;
-                border: 1px solid var(--border) !important;
-                border-radius: 18px !important;
-                box-shadow: 0 4px 20px rgba(23, 32, 51, 0.06) !important;
-                padding: 8px 12px !important;
-                min-height: 58px !important;
-                margin: 0 auto !important;
+            /* 2. CHATGPT-STYLE CHAT COMPOSER OVERRIDES */
+            /* Streamlit stBottom: Natural document flow, cleanly connected to chat */
+            div[data-testid="stBottom"] {
+                position: relative !important;
+                bottom: auto !important;
+                left: auto !important;
+                right: auto !important;
                 width: 100% !important;
+                max-width: var(--chat-max-width) !important;
+                margin: 16px auto 32px auto !important;
+                padding: 0 !important;
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                box-sizing: border-box !important;
+                z-index: 10 !important;
+            }
+
+            div[data-testid="stBottom"] > div,
+            div[data-testid="stBottomBlockContainer"] {
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                max-width: var(--chat-max-width) !important;
+                width: 100% !important;
+                padding: 0 !important;
+                margin: 0 auto !important;
+                box-sizing: border-box !important;
+            }
+
+            /* Eliminate any accidental card wrapper from stBottom */
+            div[data-testid="stBottom"] div[data-testid="stVerticalBlockBorderWrapper"],
+            div[data-testid="stBottom"] div[data-testid="stVerticalBlock"] {
+                background: transparent !important;
+                border: none !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            /* Outer chat input element (Oe) */
+            div[data-testid="stChatInput"] {
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+                max-width: var(--chat-max-width) !important;
+                width: 100% !important;
+                margin: 0 auto !important;
                 box-sizing: border-box !important;
                 display: flex !important;
+                flex-direction: column !important;
+            }
+
+            /* Inner Composer Card (ke): Modern ChatGPT style composer */
+            div[data-testid="stChatInput"] > div {
+                background-color: #FFFFFF !important;
+                border: 1px solid var(--border) !important;
+                border-radius: var(--radius-composer) !important;
+                box-shadow: 0 4px 20px rgba(23, 32, 51, 0.06) !important;
+                min-height: 64px !important;
+                height: auto !important;
+                padding: 8px 16px !important;
+                width: 100% !important;
+                max-width: var(--chat-max-width) !important;
+                margin: 0 auto !important;
+                box-sizing: border-box !important;
+                display: flex !important;
+                flex-direction: row !important;
                 align-items: center !important;
+                justify-content: space-between !important;
+                gap: 12px !important;
                 transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
             }
 
-            div[data-testid="stChatInput"]:focus-within {
+            div[data-testid="stChatInput"] > div:focus-within {
                 border-color: var(--primary) !important;
-                box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12), 0 4px 20px rgba(79, 70, 229, 0.08) !important;
+                box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15), 0 4px 20px rgba(79, 70, 229, 0.08) !important;
             }
 
-            div[data-testid="stChatInput"] textarea {
+            /* Textarea container stretch */
+            div[data-testid="stChatInput"] > div > div:first-child,
+            div[data-testid="stChatInput"] [data-baseweb="textarea"],
+            div[data-testid="stChatInput"] form {
+                flex: 1 1 auto !important;
+                width: 100% !important;
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                display: flex !important;
+                align-items: center !important;
+            }
+
+            /* Composer Textarea */
+            div[data-testid="stChatInput"] textarea,
+            [data-testid="stChatInputTextArea"] {
                 background: transparent !important;
                 color: var(--text-main) !important;
                 caret-color: var(--primary) !important;
                 font-size: 15px !important;
+                font-family: inherit !important;
                 line-height: 1.5 !important;
                 border: none !important;
                 box-shadow: none !important;
                 padding: 8px 10px !important;
                 resize: none !important;
                 width: 100% !important;
+                box-sizing: border-box !important;
             }
 
-            div[data-testid="stChatInput"] textarea::placeholder {
+            div[data-testid="stChatInput"] textarea::placeholder,
+            [data-testid="stChatInputTextArea"]::placeholder {
                 color: var(--input-placeholder) !important;
                 opacity: 1 !important;
             }
 
-            div[data-testid="stChatInput"] button {
+            /* Composer Send Button (Inside composer on the right, ~44-48px square/circular) */
+            div[data-testid="stChatInput"] button,
+            button[data-testid="stChatInputSubmitButton"] {
                 background-color: var(--primary) !important;
                 color: #FFFFFF !important;
                 border-radius: 50% !important;
@@ -1741,51 +1910,43 @@ def main():
                 min-width: 44px !important;
                 min-height: 44px !important;
                 border: none !important;
-                display: flex !important;
+                display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
+                cursor: pointer !important;
                 transition: all 0.15s ease !important;
                 flex-shrink: 0 !important;
+                box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25) !important;
+                padding: 0 !important;
+                margin: 0 !important;
             }
 
-            div[data-testid="stChatInput"] button:hover {
+            div[data-testid="stChatInput"] button:hover,
+            button[data-testid="stChatInputSubmitButton"]:hover {
                 background-color: var(--primary-hover) !important;
                 transform: scale(1.05) !important;
+                box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35) !important;
             }
 
-            div[data-testid="stChatInput"] button:disabled {
+            div[data-testid="stChatInput"] button:disabled,
+            button[data-testid="stChatInputSubmitButton"]:disabled {
                 background-color: #CBD5E1 !important;
                 color: var(--text-muted) !important;
                 cursor: not-allowed !important;
                 transform: none !important;
+                box-shadow: none !important;
             }
 
-            div[data-testid="stChatInput"] button svg {
+            div[data-testid="stChatInput"] button svg,
+            button[data-testid="stChatInputSubmitButton"] svg {
                 fill: #FFFFFF !important;
+                color: #FFFFFF !important;
                 width: 20px !important;
                 height: 20px !important;
             }
 
-            /* Distinct Chat Message Cards */
-            div[data-testid="stChatMessage"] {
-                background-color: #FFFFFF !important;
-                border: 1px solid var(--border) !important;
-                border-radius: 14px !important;
-                padding: 14px 18px !important;
-                margin-bottom: 14px !important;
-                box-shadow: 0 1px 4px rgba(23, 32, 51, 0.03) !important;
-                max-width: 88% !important;
-            }
-
-            div[data-testid="stChatMessage"][data-testid*="user"],
-            div[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]) {
-                background-color: #EEF2FF !important;
-                border-color: #C7D2FE !important;
-                margin-left: auto !important;
-            }
-
             /* ==================================================================
-               11. ALERTS & EXPANDERS
+               12. ALERTS & EXPANDERS
                ================================================================== */
             div[data-testid="stAlert"] {
                 border-radius: var(--radius-control) !important;
@@ -1806,7 +1967,7 @@ def main():
             }
 
             /* ==================================================================
-               12. RESPONSIVE DESIGN
+               13. RESPONSIVE DESIGN
                ================================================================== */
             @media (max-width: 1024px) {
                 section[data-testid="stSidebar"] {
@@ -1851,6 +2012,11 @@ def main():
                 .stMainBlockContainer, .main .block-container {
                     padding: 16px 14px !important;
                 }
+
+                div[data-testid="stChatInput"] > div {
+                    padding: 6px 12px !important;
+                    min-height: 56px !important;
+                }
             }
 
             @media (max-width: 480px) {
@@ -1862,8 +2028,8 @@ def main():
                     font-size: 22px !important;
                 }
 
-                div[data-testid="stChatInput"] {
-                    padding: 4px 8px !important;
+                div[data-testid="stChatInput"] > div {
+                    padding: 4px 10px !important;
                 }
             }
         </style>
@@ -2360,11 +2526,15 @@ def main():
         st.markdown("---")
         st.markdown(
             """
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-                <h4 style="font-size: 16.5px; font-weight: 700; color: #172033; margin: 0; display: flex; align-items: center; gap: 8px;">
-                    <span style="color: #7C3AED;">💬</span> Interactive Tutoring & Q&A
-                </h4>
-                <span style="font-size: 12px; color: #64748B;">Ask questions, request simpler explanations, or get more practice</span>
+            <div class="chat-section">
+                <div class="chat-header">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                        <h4 style="font-size: 16.5px; font-weight: 700; color: #172033; margin: 0; display: flex; align-items: center; gap: 8px;">
+                            <span style="color: #7C3AED;">💬</span> Interactive Tutoring & Q&A
+                        </h4>
+                        <span style="font-size: 12px; color: #64748B;">Ask questions, request simpler explanations, or get more practice</span>
+                    </div>
+                </div>
             </div>
             """,
             unsafe_allow_html=True,
@@ -2390,13 +2560,15 @@ def main():
         # Context Label & Attached Material State
         st.markdown(
             f"""
-            <div class="composer-meta-wrapper">
-                <div class="composer-title-group">
-                    <div class="composer-title">💬 Ask SnapStudy</div>
-                    <div class="composer-subtitle">Ask questions, request explanations, or generate practice.</div>
-                </div>
-                <div class="composer-attached-pill">
-                    📎 Study material attached: {st.session_state.uploaded_image_name or 'Uploaded File'}
+            <div class="chat-section">
+                <div class="composer-meta-wrapper">
+                    <div class="composer-title-group">
+                        <div class="composer-title">💬 Ask SnapStudy</div>
+                        <div class="composer-subtitle">Ask questions, request explanations, or generate practice.</div>
+                    </div>
+                    <div class="composer-attached-pill">
+                        📎 Study material attached: {st.session_state.uploaded_image_name or 'Uploaded File'}
+                    </div>
                 </div>
             </div>
             """,
@@ -2404,6 +2576,7 @@ def main():
         )
 
         # Suggestion Chips above the input
+        st.markdown('<div class="composer-chips-container">', unsafe_allow_html=True)
         c_col1, c_col2, c_col3, c_col4 = st.columns(4)
         with c_col1:
             st.markdown('<div class="composer-chip-btn">', unsafe_allow_html=True)
@@ -2425,18 +2598,21 @@ def main():
             if st.button("🔢 Explain step by step", use_container_width=True, key="pill_step"):
                 pill_prompt = "Explain step by step"
             st.markdown('</div>', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
     else:
         # Empty State: subtle hint when no material is uploaded
         st.markdown(
             """
-            <div class="composer-meta-wrapper">
-                <div class="composer-title-group">
-                    <div class="composer-title">💬 Ask SnapStudy</div>
-                    <div class="composer-subtitle">Ask questions, request explanations, or generate practice.</div>
-                </div>
-                <div class="composer-empty-pill">
-                    💡 Upload study material to ask questions about it
+            <div class="chat-section">
+                <div class="composer-meta-wrapper">
+                    <div class="composer-title-group">
+                        <div class="composer-title">💬 Ask SnapStudy</div>
+                        <div class="composer-subtitle">Ask questions, request explanations, or generate practice.</div>
+                    </div>
+                    <div class="composer-empty-pill">
+                        💡 Upload study material to ask questions about it
+                    </div>
                 </div>
             </div>
             """,
